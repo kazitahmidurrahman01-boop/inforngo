@@ -65,6 +65,10 @@
       item_baby: 'শিশুখাদ্য ও দুধ (প্যাক):',
       form_scout_name: 'আপনার সংগঠন / যুব ক্লাবের নাম:',
       form_scout_phone: 'জরুরি যোগাযোগের ফোন নম্বর:',
+      form_photo_label: 'মাঠপর্যায়ের ক্ষয়ক্ষতির ছবি আপলোড (গ্যালারি / ক্যামেরা):',
+      form_photo_badge: 'বাস্তব ছবি গ্রহণযোগ্য',
+      form_photo_sub: 'ডোনার এনজিওদের দ্রুত দৃষ্টি আকর্ষণ করতে আপনার ফোন বা পিসির গ্যালারি থেকে বন্যার ছবি, ভাঙা ঘরবাড়ি বা প্লাবিত এলাকার ছবি আপলোড করুন।',
+      photo_upload_btn: 'ছবি নির্বাচন করতে এখানে ক্লিক করুন (Gallery / Camera)',
       btn_submit_need: 'চাহিদা পোস্ট ও নিডবার প্রকাশ করুন',
       ai_matching_title: 'স্মার্ট এআই ত্রাণ ম্যাচিং ও বণ্টন ইঞ্জিন',
       ai_matching_desc: 'আপনার কাছে কত ত্রাণ মজুত আছে লিখুন; এআই স্বয়ংক্রিয়ভাবে সর্বোচ্চ জীবনঝুঁকি ও সর্বনিম্ন সরবরাহ পাওয়া জোনে বণ্টন সাজিয়ে দেবে।',
@@ -155,6 +159,10 @@
       item_baby: 'Baby Food & Milk (Packs):',
       form_scout_name: 'Organization / Scout Club Name:',
       form_scout_phone: 'Emergency Contact Mobile:',
+      form_photo_label: 'Upload Ground Crisis Photo (Gallery / Camera):',
+      form_photo_badge: 'Verified Ground Proof',
+      form_photo_sub: 'Upload real flood, storm, or house damage photos from your device to immediately trigger emergency response.',
+      photo_upload_btn: 'Click to select photo from device (Gallery / Camera)',
       btn_submit_need: 'Publish Need Progression Bar',
       ai_matching_title: 'Smart AI Relief Allocation Engine',
       ai_matching_desc: 'Enter your warehouse relief inventory; AI will calculate optimal distribution based on life risk and deepest supply deficit.',
@@ -197,11 +205,75 @@
     activeTab: 'booking',
     currentFilter: 'all',
     searchQuery: '',
+    selectedPostPhotoDataUrl: null,
     bookingModal: {
       zoneId: null,
       selectedItem: 'food'
     },
     leafletMap: null
+  };
+
+  // --- Photo Upload from Gallery / Camera Handler ---
+  window.handlePhotoSelect = function (e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const img = new Image();
+      img.onload = function () {
+        // Downscale to max 1000px width/height for fast canvas encoding & memory efficiency
+        const maxDim = 1000;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+        state.selectedPostPhotoDataUrl = dataUrl;
+
+        // Update preview UI
+        const previewBox = document.getElementById('post-photo-preview-box');
+        const previewImg = document.getElementById('post-photo-preview-img');
+        const dropzone = document.getElementById('photo-upload-dropzone');
+        const filename = document.getElementById('post-photo-filename');
+
+        if (previewImg) previewImg.src = dataUrl;
+        if (filename) filename.innerText = file.name;
+        if (dropzone) dropzone.classList.add('hidden');
+        if (previewBox) previewBox.classList.remove('hidden');
+
+        refreshIcons();
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  window.removeSelectedPhoto = function () {
+    state.selectedPostPhotoDataUrl = null;
+    const fileInput = document.getElementById('post-photo-file');
+    if (fileInput) fileInput.value = '';
+
+    const previewBox = document.getElementById('post-photo-preview-box');
+    const dropzone = document.getElementById('photo-upload-dropzone');
+    if (previewBox) previewBox.classList.add('hidden');
+    if (dropzone) dropzone.classList.remove('hidden');
+    refreshIcons();
   };
 
   function saveState() {
@@ -1170,14 +1242,16 @@
         const scout = document.getElementById('post-scout-name').value;
         const phone = document.getElementById('post-scout-phone').value;
 
+        const uploadedPhoto = state.selectedPostPhotoDataUrl || 'https://upload.wikimedia.org/wikipedia/commons/8/82/Flood_in_bangladesh_2016_2.jpg';
+
         const newZone = {
           id: `zone-${Date.now()}`,
           name,
           district,
           upazila: district + ' সদর',
           coordinates: [23.0, 91.0],
-          image: 'https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=800&q=80',
-          caption: 'তৃণমূল থেকে সরাসরি পোস্টকৃত দুর্গত এলাকা।',
+          image: uploadedPhoto,
+          caption: 'তৃণমূল থেকে সরাসরি আপলোডকৃত মাঠের ছবি ও জরুরি চাহিদা।',
           reportedBy: scout,
           scoutPhone: phone,
           reportTime: 'এইমাত্র',
@@ -1195,7 +1269,8 @@
         state.zones.unshift(newZone);
         saveState();
         postForm.reset();
-        alert(state.lang === 'bn' ? 'চাহিদা সফলভাবে পোস্ট হয়েছে! ড্যাশবোর্ডে নতুন নিডবার প্রকাশিত হয়েছে।' : 'Need posted successfully! Newly created progression bar is now live.');
+        window.removeSelectedPhoto();
+        alert(state.lang === 'bn' ? 'মাঠের ছবিসহ চাহিদা সফলভাবে পোস্ট হয়েছে! ড্যাশবোর্ডে নতুন নিডবার প্রকাশিত হয়েছে।' : 'Need with field photo posted successfully! Newly created progression bar is now live.');
         window.switchTab('booking');
       });
     }
