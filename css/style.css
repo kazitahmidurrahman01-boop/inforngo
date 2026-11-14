@@ -30,12 +30,33 @@ body {
   border-radius: 16px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
   transition: all 0.2s ease-in-out;
+  overflow: hidden;
 }
 
 .ngo-card:hover {
   border-color: #CBD5E1;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
   transform: translateY(-1px);
+}
+
+/* Disaster Photo Thumbnail Card */
+.zone-photo-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background-color: #E2E8F0;
+  overflow: hidden;
+}
+
+.zone-photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.zone-photo-container:hover img {
+  transform: scale(1.03);
 }
 
 /* Need Progression Bar Styling */
@@ -55,18 +76,41 @@ body {
   position: relative;
 }
 
-/* Completed & Safe Banner */
-.completed-banner {
-  background: #ECFDF5;
-  border: 1px solid #A7F3D0;
-  color: #065F46;
+/* Slide-out 3-Dots Menu Drawer */
+.menu-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  z-index: 99;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
 }
 
-/* Critical Shortage Banner */
-.critical-banner {
-  background: #FFF1F2;
-  border: 1px solid #FECDD3;
-  color: #9F1239;
+.menu-drawer-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 380px;
+  background: #FFFFFF;
+  box-shadow: -8px 0 25px -5px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  transform: translateX(100%);
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-drawer.active {
+  transform: translateX(0);
 }
 
 /* Custom Scrollbar */
