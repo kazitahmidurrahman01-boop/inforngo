@@ -1,12 +1,78 @@
 // INFOrNGO Humanitarian Disaster Dataset
 window.INFODATA = {
   ngos: [
-    { id: 'brac', name: 'ব্র্যাক (BRAC Humanitarian)', color: '#0284C7' },
-    { id: 'assunnah', name: 'আস-সুন্নাহ ফাউন্ডেশন (As-Sunnah)', color: '#059669' },
-    { id: 'redcrescent', name: 'বাংলাদেশ রেড ক্রিসেন্ট সোসাইটি', color: '#DC2626' },
-    { id: 'mastul', name: 'মাস্তুল ফাউন্ডেশন (Mastul)', color: '#D97706' },
-    { id: 'bidyanondo', name: 'বিদ্যানন্দ ফাউন্ডেশন (Bidyanondo)', color: '#7C3AED' },
-    { id: 'alkhidmat', name: 'আল-খিদমত ডিজাস্টার সেল', color: '#0D9488' }
+    { 
+      id: 'brac', 
+      name: 'ব্র্যাক হিউম্যানিটারিয়ান এইড (BRAC)', 
+      short: 'ব্র্যাক (BRAC)', 
+      color: '#0284C7',
+      regNo: 'NGO-BUR-0012',
+      contact: 'কামরুল হাসান (০১৭XXXXXXXX)',
+      headquarters: 'ঢাকা',
+      capacity: 'জাতীয় পর্যায়ের লজিস্টিকস ও ত্রাণ কনভয়',
+      totalDispatched: 5800,
+      verified: true
+    },
+    { 
+      id: 'assunnah', 
+      name: 'আস-সুন্নাহ ফাউন্ডেশন (As-Sunnah)', 
+      short: 'আস-সুন্নাহ ফাউন্ডেশন', 
+      color: '#059669',
+      regNo: 'NGO-BUR-0489',
+      contact: 'আব্দুর রহিম (০১৮XXXXXXXX)',
+      headquarters: 'ঢাকা',
+      capacity: 'বড় আকারের খাদ্য ও সুপেয় পানি বিতরণ সেল',
+      totalDispatched: 7200,
+      verified: true
+    },
+    { 
+      id: 'redcrescent', 
+      name: 'বাংলাদেশ রেড ক্রিসেন্ট সোসাইটি', 
+      short: 'বাংলাদেশ রেড ক্রিসেন্ট', 
+      color: '#DC2626',
+      regNo: 'GOVT-RECOG-001',
+      contact: 'ডা. শফিকুল ইসলাম (০১৯XXXXXXXX)',
+      headquarters: 'ঢাকা',
+      capacity: 'জরুরি মেডিকেল রেসপন্স ও মোবাইল ক্লিনিক',
+      totalDispatched: 4100,
+      verified: true
+    },
+    { 
+      id: 'mastul', 
+      name: 'মাস্তুল ফাউন্ডেশন (Mastul)', 
+      short: 'মাস্তুল ফাউন্ডেশন', 
+      color: '#D97706',
+      regNo: 'NGO-SOC-1102',
+      contact: 'কাজী রিয়াজ (০১৬XXXXXXXX)',
+      headquarters: 'ঢাকা / চট্টগ্রাম',
+      capacity: 'বোট রেসকিউ ও শিশুখাদ্য সরবরাহ',
+      totalDispatched: 2600,
+      verified: true
+    },
+    { 
+      id: 'bidyanondo', 
+      name: 'বিদ্যানন্দ ফাউন্ডেশন (Bidyanondo)', 
+      short: 'বিদ্যানন্দ ফাউন্ডেশন', 
+      color: '#7C3AED',
+      regNo: 'NGO-BUR-0891',
+      contact: 'ফারুক আহমেদ (০১৫XXXXXXXX)',
+      headquarters: 'চট্টগ্রাম',
+      capacity: 'কমিউনিটি রান্নাঘর ও শুকনো খাবার',
+      totalDispatched: 3400,
+      verified: true
+    },
+    { 
+      id: 'alkhidmat', 
+      name: 'আল-খিদমত ডিজাস্টার সেল', 
+      short: 'আল-খিদমত সেল', 
+      color: '#0D9488',
+      regNo: 'NGO-SOC-2041',
+      contact: 'মাহমুদুল হক (০১৭XXXXXXXX)',
+      headquarters: 'সিলেট / কুমিল্লা',
+      capacity: 'পানি বিশুদ্ধকরণ ও প্রাথমিক কিট',
+      totalDispatched: 1950,
+      verified: true
+    }
   ],
 
   zones: [
@@ -27,8 +93,8 @@ window.INFODATA = {
           booked: 2000,
           unit: 'প্যাকেট',
           bookings: [
-            { ngoName: 'ব্র্যাক (BRAC)', amount: 800, time: '২ ঘণ্টা আগে', color: '#0284C7' },
-            { ngoName: 'আস-সুন্নাহ ফাউন্ডেশন', amount: 1200, time: '১ ঘণ্টা আগে', color: '#059669' }
+            { ngoName: 'ব্র্যাক (BRAC)', amount: 800, time: '২ ঘণ্টা আগে', color: '#0284C7', status: 'Delivered', convoyNo: 'ট্রাক-খুলনা-১২' },
+            { ngoName: 'আস-সুন্নাহ ফাউন্ডেশন', amount: 1200, time: '১ ঘণ্টা আগে', color: '#059669', status: 'Delivered', convoyNo: 'ট্রাক-ঢাকা-৪৪' }
           ]
         },
         water: {
@@ -37,8 +103,8 @@ window.INFODATA = {
           booked: 800,
           unit: 'গ্যালন',
           bookings: [
-            { ngoName: 'ব্র্যাক (BRAC)', amount: 300, time: '২ ঘণ্টা আগে', color: '#0284C7' },
-            { ngoName: 'আস-সুন্নাহ ফাউন্ডেশন', amount: 500, time: '১ ঘণ্টা আগে', color: '#059669' }
+            { ngoName: 'ব্র্যাক (BRAC)', amount: 300, time: '২ ঘণ্টা আগে', color: '#0284C7', status: 'Delivered', convoyNo: 'পিকআপ-০২' },
+            { ngoName: 'আস-সুন্নাহ ফাউন্ডেশন', amount: 500, time: '১ ঘণ্টা আগে', color: '#059669', status: 'Delivered', convoyNo: 'পিকআপ-০৮' }
           ]
         },
         medical: {
@@ -47,7 +113,7 @@ window.INFODATA = {
           booked: 400,
           unit: 'কিট',
           bookings: [
-            { ngoName: 'বাংলাদেশ রেড ক্রিসেন্ট', amount: 400, time: '৩ ঘণ্টা আগে', color: '#DC2626' }
+            { ngoName: 'বাংলাদেশ রেড ক্রিসেন্ট', amount: 400, time: '৩ ঘণ্টা আগে', color: '#DC2626', status: 'Delivered', convoyNo: 'মেডিকেল ভ্যান-০১' }
           ]
         },
         babyFood: {
@@ -56,7 +122,7 @@ window.INFODATA = {
           booked: 300,
           unit: 'প্যাক',
           bookings: [
-            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 300, time: '৪ ঘণ্টা আগে', color: '#D97706' }
+            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 300, time: '৪ ঘণ্টা আগে', color: '#D97706', status: 'Delivered', convoyNo: 'বোট-মাস্তুল-৩' }
           ]
         }
       }
@@ -78,7 +144,7 @@ window.INFODATA = {
           booked: 250,
           unit: 'প্যাকেট',
           bookings: [
-            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 250, time: '২ ঘণ্টা আগে', color: '#D97706' }
+            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 250, time: '২ ঘণ্টা আগে', color: '#D97706', status: 'In Transit', convoyNo: 'বোট-০২ (মাস্তুল)' }
           ]
         },
         water: {
@@ -87,7 +153,7 @@ window.INFODATA = {
           booked: 100,
           unit: 'গ্যালন',
           bookings: [
-            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 100, time: '২ ঘণ্টা আগে', color: '#D97706' }
+            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 100, time: '২ ঘণ্টা আগে', color: '#D97706', status: 'In Transit', convoyNo: 'বোট-০২ (মাস্তুল)' }
           ]
         },
         medical: {
@@ -164,8 +230,8 @@ window.INFODATA = {
           booked: 700,
           unit: 'প্যাকেট',
           bookings: [
-            { ngoName: 'বিদ্যানন্দ ফাউন্ডেশন', amount: 500, time: '৩ ঘণ্টা আগে', color: '#7C3AED' },
-            { ngoName: 'আল-খিদমত সেল', amount: 200, time: '১ ঘণ্টা আগে', color: '#0D9488' }
+            { ngoName: 'বিদ্যানন্দ ফাউন্ডেশন', amount: 500, time: '৩ ঘণ্টা আগে', color: '#7C3AED', status: 'Delivered', convoyNo: 'ট্রাক-নোয়া-০৫' },
+            { ngoName: 'আল-খিদমত সেল', amount: 200, time: '১ ঘণ্টা আগে', color: '#0D9488', status: 'In Transit', convoyNo: 'পিকআপ-০১' }
           ]
         },
         water: {
@@ -174,7 +240,7 @@ window.INFODATA = {
           booked: 400,
           unit: 'গ্যালন',
           bookings: [
-            { ngoName: 'বিদ্যানন্দ ফাউন্ডেশন', amount: 400, time: '৩ ঘণ্টা আগে', color: '#7C3AED' }
+            { ngoName: 'বিদ্যানন্দ ফাউন্ডেশন', amount: 400, time: '৩ ঘণ্টা আগে', color: '#7C3AED', status: 'Delivered', convoyNo: 'ট্রাক-নোয়া-০৫' }
           ]
         },
         medical: {
@@ -183,7 +249,7 @@ window.INFODATA = {
           booked: 150,
           unit: 'কিট',
           bookings: [
-            { ngoName: 'বাংলাদেশ রেড ক্রিসেন্ট', amount: 150, time: '২ ঘণ্টা আগে', color: '#DC2626' }
+            { ngoName: 'বাংলাদেশ রেড ক্রিসেন্ট', amount: 150, time: '২ ঘণ্টা আগে', color: '#DC2626', status: 'Delivered', convoyNo: 'মেডিকেল ভ্যান' }
           ]
         },
         babyFood: {
@@ -192,7 +258,7 @@ window.INFODATA = {
           booked: 50,
           unit: 'প্যাক',
           bookings: [
-            { ngoName: 'আল-খিদমত সেল', amount: 50, time: '১ ঘণ্টা আগে', color: '#0D9488' }
+            { ngoName: 'আল-খিদমত সেল', amount: 50, time: '১ ঘণ্টা আগে', color: '#0D9488', status: 'In Transit', convoyNo: 'পিকআপ-০১' }
           ]
         }
       }
@@ -214,8 +280,8 @@ window.INFODATA = {
           booked: 850,
           unit: 'প্যাকেট',
           bookings: [
-            { ngoName: 'আস-সুন্নাহ ফাউন্ডেশন', amount: 600, time: '৩ ঘণ্টা আগে', color: '#059669' },
-            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 250, time: '১ ঘণ্টা আগে', color: '#D97706' }
+            { ngoName: 'আস-সুন্নাহ ফাউন্ডেশন', amount: 600, time: '৩ ঘণ্টা আগে', color: '#059669', status: 'Delivered', convoyNo: 'ট্রাক-চট্টগ্রাম-০৮' },
+            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 250, time: '১ ঘণ্টা আগে', color: '#D97706', status: 'Delivered', convoyNo: 'পিকআপ-০৩' }
           ]
         },
         water: {
@@ -224,7 +290,7 @@ window.INFODATA = {
           booked: 350,
           unit: 'গ্যালন',
           bookings: [
-            { ngoName: 'আস-সুন্নাহ ফাউন্ডেশন', amount: 350, time: '২ ঘণ্টা আগে', color: '#059669' }
+            { ngoName: 'আস-সুন্নাহ ফাউন্ডেশন', amount: 350, time: '২ ঘণ্টা আগে', color: '#059669', status: 'Delivered', convoyNo: 'পিকআপ-০৯' }
           ]
         },
         medical: {
@@ -233,7 +299,7 @@ window.INFODATA = {
           booked: 250,
           unit: 'কিট',
           bookings: [
-            { ngoName: 'বাংলাদেশ রেড ক্রিসেন্ট', amount: 250, time: '৩ ঘণ্টা আগে', color: '#DC2626' }
+            { ngoName: 'বাংলাদেশ রেড ক্রিসেন্ট', amount: 250, time: '৩ ঘণ্টা আগে', color: '#DC2626', status: 'Delivered', convoyNo: 'মেডিকেল টিম-৪' }
           ]
         },
         babyFood: {
@@ -242,7 +308,7 @@ window.INFODATA = {
           booked: 90,
           unit: 'প্যাক',
           bookings: [
-            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 90, time: '১ ঘণ্টা আগে', color: '#D97706' }
+            { ngoName: 'মাস্তুল ফাউন্ডেশন', amount: 90, time: '১ ঘণ্টা আগে', color: '#D97706', status: 'Delivered', convoyNo: 'পিকআপ-০৩' }
           ]
         }
       }

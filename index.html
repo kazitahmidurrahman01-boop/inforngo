@@ -13,180 +13,124 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <!-- ==================== HEADER ==================== -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <!-- Brand & Mission -->
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white font-extrabold text-xl shadow-sm">
-          IN
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-xl font-extrabold tracking-tight text-slate-900">
-              INFOR<span class="text-sky-600">NGO</span>
-            </h1>
-            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
-              রিয়েল-টাইম প্ল্যাটফর্ম
-            </span>
+  <!-- ==================== MAIN HEADER & NAVIGATION ==================== -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      
+      <!-- Top Brand Row -->
+      <div class="py-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white font-extrabold text-xl shadow-xs">
+            IN
           </div>
-          <p class="text-xs text-slate-500">দুর্যোগে প্রতিটি এলাকায় সুষম ত্রাণ বণ্টন ও অপচয় রোধ</p>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xl font-extrabold tracking-tight text-slate-900 cursor-pointer" onclick="window.switchTab('booking')">
+                INFOR<span class="text-sky-600">NGO</span>
+              </span>
+              <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
+                লাইভ গ্রিড
+              </span>
+            </div>
+            <p class="text-xs text-slate-500">দুর্যোগে প্রতিটি এলাকায় সুষম ত্রাণ বণ্টন ও সমন্বিত নিড-ট্র্যাকার</p>
+          </div>
+        </div>
+
+        <!-- Quick Summary Mini-Badges -->
+        <div class="flex items-center gap-2 text-xs">
+          <span class="px-2.5 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg font-bold">
+            🚨 <span id="header-critical-count">২</span> টি চরম সংকট
+          </span>
+          <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg font-bold">
+            ✅ <span id="header-completed-count">১</span> টি সম্পন্ন জোন
+          </span>
         </div>
       </div>
 
-      <!-- Jump Actions -->
-      <div class="flex items-center gap-2">
-        <a href="#scout-section" class="py-2 px-3.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold border border-slate-300 transition">
-          📢 চাহিদা পোস্ট করুন (গ্রাউন্ড এনজিও)
-        </a>
-        <a href="#zones-section" class="py-2 px-3.5 bg-sky-600 hover:bg-sky-700 text-white rounded-lg text-xs font-bold shadow-sm transition">
-          🤝 ত্রাণ বুক করুন (ডোনার এনজিও)
-        </a>
-      </div>
+      <!-- Navigation Tabs Row -->
+      <nav class="flex items-center gap-1.5 py-2 overflow-x-auto text-xs font-bold">
+        <button onclick="window.switchTab('booking')" id="tab-nav-booking"
+                class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 bg-sky-600 text-white shadow-xs">
+          <span>🤝</span>
+          <span>ত্রাণ বুকিং ড্যাশবোর্ড</span>
+        </button>
+
+        <button onclick="window.switchTab('post')" id="tab-nav-post"
+                class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <span>📢</span>
+          <span>চাহিদা পোস্ট করুন (গ্রাউন্ড এনজিও)</span>
+        </button>
+
+        <button onclick="window.switchTab('register')" id="tab-nav-register"
+                class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <span>🏢</span>
+          <span>নতুন ডোনার এনজিও রেজিস্ট্রেশন</span>
+        </button>
+
+        <button onclick="window.switchTab('dispatch')" id="tab-nav-dispatch"
+                class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <span>🚚</span>
+          <span>কনভয় ও ডিসপ্যাচ ট্র্যাকার</span>
+        </button>
+
+        <button onclick="window.switchTab('directory')" id="tab-nav-directory"
+                class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
+          <span>📋</span>
+          <span>পার্টনার এনজিও ডিরেক্টরি</span>
+        </button>
+      </nav>
+
     </div>
   </header>
 
-  <!-- ==================== SUMMARY STATS BAR ==================== -->
-  <section class="max-w-6xl mx-auto px-4 sm:px-6 pt-6 w-full">
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">মোট সংকট এলাকা</div>
-        <div id="stat-total-zones" class="text-2xl font-black text-slate-900 font-num mt-1">৫</div>
-      </div>
-      <div class="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/30 shadow-sm">
-        <div class="text-[11px] font-bold uppercase tracking-wider text-rose-600">জরুরি অগ্রাধিকার (০-৩০%)</div>
-        <div id="stat-critical-zones" class="text-2xl font-black text-rose-600 font-num mt-1">২</div>
-      </div>
-      <div class="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/30 shadow-sm">
-        <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-700">১০০% বুকিং সম্পন্ন (সুরক্ষিত)</div>
-        <div id="stat-completed-zones" class="text-2xl font-black text-emerald-700 font-num mt-1">১</div>
-      </div>
-      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
-        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">খাদ্য প্যাকেট বুকিং অগ্রগতি</div>
-        <div id="stat-food-booked" class="text-lg font-black text-slate-900 font-num mt-1.5 truncate">৩,৯৫০ / ৮,৩০০</div>
-      </div>
-    </div>
-  </section>
+  <!-- ==================== MAIN CONTENT AREA ==================== -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 flex flex-col">
 
-  <!-- ==================== MAIN CONTENT ==================== -->
-  <main class="max-w-6xl mx-auto px-4 sm:px-6 py-6 w-full flex-1 flex flex-col gap-8">
-
-    <!-- ==================== SEGMENT 1: গ্রাউন্ড লেভেল এনজিও (চাহিদা নিরূপণ ও পোস্ট) ==================== -->
-    <section id="scout-section" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-7">
-      <div class="flex items-center gap-3 mb-2 pb-3 border-b border-slate-100">
-        <div class="w-9 h-9 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-lg">
-          📢
+    <!-- ======================================================== -->
+    <!-- VIEW 1: ত্রাণ বুকিং ড্যাশবোর্ড (DEFAULT ACTIVE VIEW)       -->
+    <!-- ======================================================== -->
+    <div id="view-booking" class="view-panel flex flex-col gap-6">
+      
+      <!-- Top Overview Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">মোট সংকট এলাকা</div>
+          <div id="stat-total-zones" class="text-2xl font-black text-slate-900 font-num mt-1">৫</div>
         </div>
+        <div class="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/20 shadow-xs">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-rose-600">জরুরি অগ্রাধিকার (০-৩০%)</div>
+          <div id="stat-critical-zones" class="text-2xl font-black text-rose-600 font-num mt-1">২</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-700">১০০% বুকিং সম্পন্ন (সুরক্ষিত)</div>
+          <div id="stat-completed-zones" class="text-2xl font-black text-emerald-700 font-num mt-1">১</div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">খাদ্য প্যাকেট অগ্রগতি</div>
+          <div id="stat-food-booked" class="text-lg font-black text-slate-900 font-num mt-1.5 truncate">৩,৯৫০ / ৮,৩০০</div>
+        </div>
+      </div>
+
+      <!-- Controls & Filter Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 class="text-base font-extrabold text-slate-900">সেগমেন্ট ১: গ্রাউন্ড লেভেল এনজিও পোর্টাল (মাঠপর্যায়ের চাহিদা পোস্ট)</h2>
-          <p class="text-xs text-slate-500">স্থানীয় এনজিও বা ভলান্টিয়ার টিম দুর্যোগকবলিত এলাকার বাস্তব চাহিদা পোস্ট করুন। পোস্ট করার সাথে সাথে নিডবার তৈরি হবে।</p>
-        </div>
-      </div>
-
-      <form onsubmit="window.submitScoutPost(event)" class="mt-4 space-y-4">
-        <!-- Row 1: Location & District -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          <div class="sm:col-span-2">
-            <label class="block text-xs font-bold text-slate-700 mb-1">এলাকা / ওয়ার্ড / গ্রামের সুনির্দিষ্ট নাম:</label>
-            <input type="text" id="scout-area-name" required placeholder="যেমন: রূপসা ঘাট ও ৩নং চর সংলগ্ন" 
-                   class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">জেলা:</label>
-            <select id="scout-district" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
-              <option value="খুলনা">খুলনা</option>
-              <option value="ফেনী">ফেনী</option>
-              <option value="চট্টগ্রাম">চট্টগ্রাম</option>
-              <option value="নোয়াখালী">নোয়াখালী</option>
-              <option value="সিলেট">সিলেট</option>
-              <option value="কুমিল্লা">কুমিল্লা</option>
-              <option value="লক্ষ্মীপুর">লক্ষ্মীপুর</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Row 2: Families & Water Level -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">উপজেলা / থানা:</label>
-            <input type="text" id="scout-upazila" placeholder="যেমন: রূপসা" 
-                   class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">ক্ষতিগ্রস্ত পরিবারের সংখ্যা:</label>
-            <input type="number" id="scout-families" required placeholder="যেমন: ৮৫০" 
-                   class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 font-num font-semibold focus:bg-white focus:outline-none focus:border-sky-600 transition">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">পানির গভীরতা ও অবস্থা:</label>
-            <input type="text" id="scout-water-depth" required placeholder="যেমন: কোমর সমান পানি, বোট আবশ্যক" 
-                   class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
-          </div>
-        </div>
-
-        <!-- Row 3: Item Quantities -->
-        <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-          <div class="text-xs font-bold text-slate-800 mb-2.5">কী কী জিনিস লাগবে এবং কত পরিমাণে লাগবে? (চাহিদা নিরূপণ):</div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">📦 শুকনো খাবার (প্যাকেট):</label>
-              <input type="number" id="scout-food-qty" required placeholder="যেমন: ১৫০০" 
-                     class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">💧 খাবার পানি (গ্যালন):</label>
-              <input type="number" id="scout-water-qty" required placeholder="যেমন: ৫০০" 
-                     class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">💊 ওষুধ ও স্যালাইন (কিট):</label>
-              <input type="number" id="scout-medical-qty" placeholder="যেমন: ৩০০" 
-                     class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
-            </div>
-            <div>
-              <label class="block text-[11px] font-semibold text-slate-600 mb-1">🍼 শিশুখাদ্য ও দুধ (প্যাক):</label>
-              <input type="number" id="scout-baby-qty" placeholder="যেমন: ২০০" 
-                     class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
-            </div>
-          </div>
-        </div>
-
-        <!-- Row 4: Reporting Org & Submit -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
-          <div class="w-full sm:w-80">
-            <label class="block text-xs font-bold text-slate-700 mb-1">আপনার সংগঠন / যুব ক্লাবের নাম:</label>
-            <input type="text" id="scout-org-name" required placeholder="যেমন: খুলনা যুব কল্যাণ সংঘ" 
-                   class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
-          </div>
-
-          <button type="submit" class="w-full sm:w-auto py-2.5 px-6 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-sm transition flex items-center justify-center gap-2">
-            <span>📢</span>
-            <span>চাহিদা পোস্ট করুন (নিডবার তৈরি করুন)</span>
-          </button>
-        </div>
-      </form>
-    </section>
-
-    <!-- ==================== SEGMENT 2: ত্রাণ বিতরণকারী এনজিও পোর্টাল (চাহিদা পূরণ ও বুকিং) ==================== -->
-    <section id="zones-section" class="w-full">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-        <div>
-          <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
-            <span>🤝</span> সেগমেন্ট ২: ত্রাণ বিতরণকারী এনজিও পোর্টাল (চাহিদা পূরণ ও বুকিং)
+          <h2 class="text-base font-extrabold text-slate-900">
+            মাঠপর্যায়ের চাহিদা তালিকা ও নিডবার (Need Progression Bars)
           </h2>
-          <p class="text-xs text-slate-500">মাঠের চাহিদা প্রগ্রেসবার দেখে নিজের ত্রাণ বুক করুন। ১০০% পূর্ণ হলে পরবর্তী ঘাটতিপ্রবণ এলাকায় যান।</p>
+          <p class="text-xs text-slate-500">ডোনার এনজিও হিসেবে খালি অংশগুলোতে ক্লিক করে আপনার ত্রাণ সামগ্রী বুক করুন।</p>
         </div>
 
         <!-- Search Bar -->
         <div class="w-full sm:w-72">
-          <input type="text" id="search-input" placeholder="এলাকা বা জেলা দিয়ে খুঁজুন..." 
-                 class="w-full bg-white border border-slate-300 text-slate-800 placeholder-slate-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-sky-600 transition shadow-sm">
+          <input type="text" id="search-input" placeholder="এলাকা বা জেলা দিয়ে খুঁজুন (যেমন: খুলনা, ফেনী)..." 
+                 class="w-full bg-white border border-slate-300 text-slate-800 placeholder-slate-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-sky-600 transition shadow-xs">
         </div>
       </div>
 
       <!-- Filter Tabs -->
-      <div class="flex items-center gap-2 mb-5 overflow-x-auto pb-1">
-        <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-sky-600 text-white shadow-sm" data-filter="all">
+      <div class="flex items-center gap-2 overflow-x-auto pb-1">
+        <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-sky-600 text-white shadow-xs" data-filter="all">
           সকল এলাকা
         </button>
         <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition bg-white text-slate-600 border border-slate-200 hover:border-slate-300" data-filter="critical">
@@ -196,15 +140,260 @@
           🟡 আংশিক বুকড (৩০-৯৯%)
         </button>
         <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition bg-white text-slate-600 border border-slate-200 hover:border-slate-300" data-filter="completed">
-          🟢 ১০০% বুকিং সম্পন্ন (সুরক্ষিত)
+          🟢 ১০০% বুকিং সম্পন্ন (সুরক্ষিত জোন)
         </button>
       </div>
 
-      <!-- List of Crisis Cards with Need Progression Bars -->
-      <div id="zones-list-container">
+      <!-- Active Zones List -->
+      <div id="zones-list-container" class="space-y-5">
         <!-- Dynamically injected via app.js -->
       </div>
-    </section>
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- VIEW 2: চাহিদা পোস্ট করুন (গ্রাউন্ড লেভেল এনজিও পোর্টাল)   -->
+    <!-- ======================================================== -->
+    <div id="view-post" class="view-panel hidden flex flex-col gap-5">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs">
+        <div class="flex items-center gap-3 mb-2 pb-3 border-b border-slate-100">
+          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xl">
+            📢
+          </div>
+          <div>
+            <h2 class="text-lg font-extrabold text-slate-900">মাঠপর্যায়ের নতুন দুর্যোগ ও চাহিদা পোস্ট ফরম</h2>
+            <p class="text-xs text-slate-500">গ্রাউন্ড ভলান্টিয়ার বা লোকাল এনজিও হিসেবে আপনার এলাকার জরুরি চাহিদা পোস্ট করুন। পোস্ট করলেই বুকিং ড্যাশবোর্ডে ০% নিডবার তৈরি হবে।</p>
+          </div>
+        </div>
+
+        <form onsubmit="window.submitScoutPost(event)" class="mt-4 space-y-4">
+          <!-- Row 1: Location & District -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-700 mb-1">এলাকা / ওয়ার্ড / গ্রামের সুনির্দিষ্ট নাম:</label>
+              <input type="text" id="scout-area-name" required placeholder="যেমন: রূপসা ঘাট সংলগ্ন ৩নং চর গ্রাম" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">জেলা:</label>
+              <select id="scout-district" class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+                <option value="খুলনা">খুলনা</option>
+                <option value="ফেনী">ফেনী</option>
+                <option value="চট্টগ্রাম">চট্টগ্রাম</option>
+                <option value="নোয়াখালী">নোয়াখালী</option>
+                <option value="সিলেট">সিলেট</option>
+                <option value="কুমিল্লা">কুমিল্লা</option>
+                <option value="লক্ষ্মীপুর">লক্ষ্মীপুর</option>
+                <option value="অন্যান্য">অন্যান্য জেলা</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Row 2: Upazila, Families & Water Level -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">উপজেলা / থানা:</label>
+              <input type="text" id="scout-upazila" placeholder="যেমন: রূপসা সদর" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">ক্ষতিগ্রস্ত পরিবারের সংখ্যা:</label>
+              <input type="number" id="scout-families" required placeholder="যেমন: ৮৫০" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 font-num font-semibold focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">পানির গভীরতা ও অবস্থা:</label>
+              <input type="text" id="scout-water-depth" required placeholder="যেমন: কোমর সমান পানি, বোট ছাড়া যাওয়া যায় না" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+          </div>
+
+          <!-- Row 3: Items Need Breakdown -->
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+            <div class="text-xs font-bold text-slate-800 mb-2.5">কী কী জিনিস লাগবে এবং কত পরিমাণে লাগবে? (চাহিদা নিরূপণ):</div>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">📦 শুকনো খাবার (প্যাকেট):</label>
+                <input type="number" id="scout-food-qty" required placeholder="যেমন: ১৫০০" 
+                       class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">💧 খাবার পানি (গ্যালন):</label>
+                <input type="number" id="scout-water-qty" required placeholder="যেমন: ৫০০" 
+                       class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">💊 ওষুধ ও স্যালাইন (কিট):</label>
+                <input type="number" id="scout-medical-qty" placeholder="যেমন: ৩০০" 
+                       class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">🍼 শিশুখাদ্য ও দুধ (প্যাক):</label>
+                <input type="number" id="scout-baby-qty" placeholder="যেমন: ২০০" 
+                       class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
+              </div>
+            </div>
+          </div>
+
+          <!-- Row 4: Reporting Org & Submit -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+            <div class="w-full sm:w-80">
+              <label class="block text-xs font-bold text-slate-700 mb-1">আপনার সংগঠন / যুব ক্লাবের নাম:</label>
+              <input type="text" id="scout-org-name" required placeholder="যেমন: খুলনা তরুণ যুব ফ্রন্ট" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+
+            <button type="submit" class="w-full sm:w-auto py-2.5 px-6 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center justify-center gap-2">
+              <span>📢</span>
+              <span>চাহিদা পোস্ট ও নিডবার প্রকাশ করুন</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- VIEW 3: ডোনার এনজিও রেজিস্ট্রেশন পোর্টাল                   -->
+    <!-- ======================================================== -->
+    <div id="view-register" class="view-panel hidden flex flex-col gap-5">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs">
+        <div class="flex items-center gap-3 mb-2 pb-3 border-b border-slate-100">
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xl">
+            🏢
+          </div>
+          <div>
+            <h2 class="text-lg font-extrabold text-slate-900">নতুন ডোনার এনজিও রেজিস্ট্রেশন ফরম</h2>
+            <p class="text-xs text-slate-500">আপনি কি কোনো এনজিও, ফাউন্ডেশন বা দাতব্য দলের হয়ে ত্রাণ বিতরণ করতে চান? রেজিস্ট্রেশন করলেই আপনার সংস্থা বুকিং লিস্টে যুক্ত হবে।</p>
+          </div>
+        </div>
+
+        <form onsubmit="window.submitNgoRegistration(event)" class="mt-4 space-y-4">
+          <!-- Row 1: Org Name & Short Code -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-bold text-slate-700 mb-1">সংস্থা / এনজিওর পূর্ণ নাম:</label>
+              <input type="text" id="reg-ngo-name" required placeholder="যেমন: ঢাকা হিউম্যানিটারিয়ান এইড ফোরাম" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">সংক্ষিপ্ত নাম (Short Name):</label>
+              <input type="text" id="reg-ngo-short" required placeholder="যেমন: DHAF বা ঢাকা এইড" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+          </div>
+
+          <!-- Row 2: Reg No & Contact Person -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">নিবন্ধন / এনজিও ব্যুরো নম্বর (যদি থাকে):</label>
+              <input type="text" id="reg-ngo-num" placeholder="যেমন: NGO-BUR-XXXX" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">দায়িত্বশীল প্রতিনিধির নাম ও ফোন:</label>
+              <input type="text" id="reg-ngo-contact" required placeholder="যেমন: তানভীর আহমেদ (০১৭XXXXXXXX)" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">প্রধান কার্যালয়ের জেলা:</label>
+              <input type="text" id="reg-ngo-hq" required placeholder="যেমন: ঢাকা বা চট্টগ্রাম" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+          </div>
+
+          <!-- Row 3: Focus & Logistics Capacity -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">কাজের প্রধান ক্ষেত্র (ফোকাস):</label>
+              <input type="text" id="reg-ngo-focus" placeholder="যেমন: শুকনো খাবার, খাবার পানি, স্যালাইন ও শিশুখাদ্য" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">লজিস্টিকস ও যানবাহন সক্ষমতা:</label>
+              <input type="text" id="reg-ngo-capacity" placeholder="যেমন: ২টি বড় ট্রাক, ৩টি পিকআপ, ২টি রেসকিউ বোট" 
+                     class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600 transition">
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="pt-2">
+            <button type="submit" class="py-2.5 px-6 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center justify-center gap-2">
+              <span>✓</span>
+              <span>এনজিও রেজিস্ট্রেশন সম্পন্ন করুন</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- VIEW 4: কনভয় ও ডিসপ্যাচ ট্র্যাকার (DISPATCH LEDGER)         -->
+    <!-- ======================================================== -->
+    <div id="view-dispatch" class="view-panel hidden flex flex-col gap-5">
+      <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
+          <div>
+            <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+              <span>🚚</span> সক্রিয় কনভয় ও ত্রাণের চালান ট্র্যাকার
+            </h2>
+            <p class="text-xs text-slate-500">কোন এনজিওর কতগুলো ত্রাণের গাড়ি বা বোট কোন এলাকার উদ্দেশ্যে রওনা হয়েছে এবং বিতরণ সম্পন্ন হয়েছে কি না তার লাইভ স্ট্যাটাস।</p>
+          </div>
+
+          <!-- Filter by NGO -->
+          <div class="text-xs">
+            <span class="text-slate-500 mr-1">ফিল্টার:</span>
+            <select id="dispatch-ngo-filter" onchange="window.filterDispatchList()" class="bg-slate-50 border border-slate-300 rounded-lg px-2.5 py-1 text-xs text-slate-800">
+              <option value="all">সকল এনজিওর চালান</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Table of Dispatches -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold">
+                <th class="py-2.5 px-3">এনজিওর নাম</th>
+                <th class="py-2.5 px-3">গন্তব্য এলাকা</th>
+                <th class="py-2.5 px-3">ত্রাণের ধরন ও পরিমাণ</th>
+                <th class="py-2.5 px-3">গাড়ির বিবরণ</th>
+                <th class="py-2.5 px-3">স্ট্যাটাস</th>
+                <th class="py-2.5 px-3 text-right">ছাড়পত্র</th>
+              </tr>
+            </thead>
+            <tbody id="dispatch-table-body" class="divide-y divide-slate-100">
+              <!-- Injected via app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ======================================================== -->
+    <!-- VIEW 5: পার্টনার এনজিও ডিরেক্টরি (NGO DIRECTORY)           -->
+    <!-- ======================================================== -->
+    <div id="view-directory" class="view-panel hidden flex flex-col gap-5">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+            <span>📋</span> সংযুক্ত মানবিক সংস্থা ও এনজিও ডিরেক্টরি
+          </h2>
+          <p class="text-xs text-slate-500">INFOrNGO প্ল্যাটফর্মের সাথে ভেরিফাইড ও সক্রিয় ত্রাণ বিতরণকারী পার্টনার সংস্থাসমূহ।</p>
+        </div>
+
+        <button onclick="window.switchTab('register')" class="py-2 px-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold shadow-xs transition">
+          + নতুন এনজিও যোগ করুন
+        </button>
+      </div>
+
+      <!-- Grid of NGOs -->
+      <div id="ngo-directory-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Injected via app.js -->
+      </div>
+    </div>
 
   </main>
 
@@ -257,7 +446,14 @@
                  class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 font-num font-bold focus:bg-white focus:outline-none focus:border-sky-600">
         </div>
 
-        <button type="submit" class="w-full py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow transition flex items-center justify-center gap-1.5">
+        <!-- Convoy vehicle note -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">কনভয় / গাড়ির বিবরণ ও ড্রাইভার ফোন (ঐচ্ছিক):</label>
+          <input type="text" id="book-convoy-input" placeholder="যেমন: ট্রাক-খুলনা-১৪ (চালক: রহিম, ০১৭১...)" 
+                 class="w-full bg-slate-50 border border-slate-300 rounded-lg px-3 py-2 text-xs text-slate-900 focus:bg-white focus:outline-none focus:border-sky-600">
+        </div>
+
+        <button type="submit" class="w-full py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center justify-center gap-1.5">
           <span>✓</span>
           <span>বুকিং কনফার্ম করুন (নিডবার আপডেট করুন)</span>
         </button>
@@ -265,8 +461,32 @@
     </div>
   </div>
 
+  <!-- ==================== MODAL: ডিজিটাল ডেলিভারি ছাড়পত্র (DISPATCH PASS) ==================== -->
+  <div id="pass-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 hidden items-center justify-center p-4">
+    <div class="bg-white border border-slate-300 w-full max-w-lg rounded-2xl p-6 shadow-2xl relative">
+      <button onclick="window.closePassModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-700 text-xl font-bold">✕</button>
+      
+      <div class="text-center pb-3 border-b border-slate-200">
+        <div class="text-xs font-bold text-sky-700 uppercase tracking-widest">INFOrNGO ন্যাশনাল ডিজাস্টার গ্রিড</div>
+        <h3 class="text-lg font-black text-slate-900 mt-0.5">মানবিক ত্রাণ কনভয় ডিজিটাল ছাড়পত্র</h3>
+        <p class="text-[11px] text-slate-500">হাইওয়ে চেকপোস্ট ও স্থানীয় প্রশাসনের জন্য ভেরিফাইড ডিসপ্যাচ স্লিপ</p>
+      </div>
+
+      <div id="pass-modal-content" class="my-4 space-y-3 text-xs">
+        <!-- Injected via app.js -->
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+        <span class="text-[10.5px] text-slate-400">ডিজিটাল রেফারেন্স: INFOR-PASS-2026</span>
+        <button onclick="window.print()" class="py-2 px-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-lg text-xs transition">
+          🖨️ প্রিন্ট / সেভ করুন
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
-  <footer class="bg-white border-t border-slate-200 py-6 px-4 text-center text-xs text-slate-500">
+  <footer class="bg-white border-t border-slate-200 py-6 px-4 text-center text-xs text-slate-500 mt-auto">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
       <div>
         © 2026 <strong>INFOrNGO</strong>. জাতীয় দুর্যোগকালীন সমন্বিত ত্রাণ ও নিড-ট্র্যাকিং প্ল্যাটফর্ম।

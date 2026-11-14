@@ -1,19 +1,72 @@
-// INFOrNGO Core Engine - Clean Humanitarian Platform
+// INFOrNGO Master Application - Multi-View Humanitarian Engine
 (function () {
   'use strict';
 
   // --- App State ---
   const state = {
-    zones: JSON.parse(localStorage.getItem('inforngo_clean_zones')) || window.INFODATA.zones,
-    ngos: window.INFODATA.ngos,
+    zones: JSON.parse(localStorage.getItem('inforngo_v3_zones')) || window.INFODATA.zones,
+    ngos: JSON.parse(localStorage.getItem('inforngo_v3_ngos')) || window.INFODATA.ngos,
+    dispatches: JSON.parse(localStorage.getItem('inforngo_v3_dispatches')) || [
+      { id: 'd-1', ngoName: 'ব্র্যাক হিউম্যানিটারিয়ান এইড (BRAC)', zoneName: 'খুলনা নিরালা', items: '৮০০ খাবার প্যাকেট + ৩০০ গ্যালন পানি', vehicle: 'ট্রাক-খুলনা-১২', status: 'Delivered', time: 'আজ দুপুর ১২:০০' },
+      { id: 'd-2', ngoName: 'আস-সুন্নাহ ফাউন্ডেশন (As-Sunnah)', zoneName: 'খুলনা নিরালা', items: '১২০০ খাবার প্যাকেট + ৫০০ গ্যালন পানি', vehicle: 'ট্রাক-ঢাকা-৪৪', status: 'Delivered', time: 'আজ দুপুর ০১:১৫' },
+      { id: 'd-3', ngoName: 'মাস্তুল ফাউন্ডেশন (Mastul)', zoneName: 'খুলনা ময়লাপোতা', items: '২৫০ খাবার প্যাকেট + ১০০ গ্যালন পানি', vehicle: 'বোট-০২ (মাস্তুল)', status: 'In Transit', time: 'আজ দুপুর ০২:৩০' },
+      { id: 'd-4', ngoName: 'বিদ্যানন্দ ফাউন্ডেশন (Bidyanondo)', zoneName: 'নোয়াখালী বেগমগঞ্জ', items: '৫০০ খাবার প্যাকেট + ৪০০ গ্যালন পানি', vehicle: 'ট্রাক-নোয়া-০৫', status: 'Delivered', time: 'আজ সকাল ১০:৪৫' },
+      { id: 'd-5', ngoName: 'আল-খিদমত ডিজাস্টার সেল', zoneName: 'নোয়াখালী বেগমগঞ্জ', items: '২০০ খাবার প্যাকেট + ৫০ শিশুখাদ্য', vehicle: 'পিকআপ-০১', status: 'In Transit', time: 'আজ দুপুর ০১:৪৫' },
+      { id: 'd-6', ngoName: 'আস-সুন্নাহ ফাউন্ডেশন (As-Sunnah)', zoneName: 'চট্টগ্রাম ফটিকছড়ি', items: '৬০০ খাবার প্যাকেট + ৩৫০ গ্যালন পানি', vehicle: 'ট্রাক-চট্টগ্রাম-০৮', status: 'Delivered', time: 'আজ সকাল ১১:২০' }
+    ],
     currentFilter: 'all',
     searchQuery: '',
-    activeTab: 'donor' // 'donor' or 'scout'
+    activeTab: 'booking'
   };
 
   function saveState() {
-    localStorage.setItem('inforngo_clean_zones', JSON.stringify(state.zones));
+    localStorage.setItem('inforngo_v3_zones', JSON.stringify(state.zones));
+    localStorage.setItem('inforngo_v3_ngos', JSON.stringify(state.ngos));
+    localStorage.setItem('inforngo_v3_dispatches', JSON.stringify(state.dispatches));
   }
+
+  // --- Tab Navigation Switcher ---
+  window.switchTab = function (tabId) {
+    state.activeTab = tabId;
+
+    // Hide all view panels
+    document.querySelectorAll('.view-panel').forEach(p => p.classList.add('hidden'));
+
+    // Show target view panel
+    const targetPanel = document.getElementById(`view-${tabId}`);
+    if (targetPanel) targetPanel.classList.remove('hidden');
+
+    // Update Nav Tab Buttons
+    const navButtons = {
+      booking: document.getElementById('tab-nav-booking'),
+      post: document.getElementById('tab-nav-post'),
+      register: document.getElementById('tab-nav-register'),
+      dispatch: document.getElementById('tab-nav-dispatch'),
+      directory: document.getElementById('tab-nav-directory')
+    };
+
+    Object.keys(navButtons).forEach(k => {
+      const btn = navButtons[k];
+      if (!btn) return;
+      if (k === tabId) {
+        btn.className = 'nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 bg-sky-600 text-white shadow-xs font-bold';
+      } else {
+        btn.className = 'nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 font-bold';
+      }
+    });
+
+    // Special View Refreshes
+    if (tabId === 'booking') {
+      renderZones();
+      updateTopStats();
+    } else if (tabId === 'dispatch') {
+      renderDispatchList();
+    } else if (tabId === 'directory') {
+      renderNgoDirectory();
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // --- Calculation Helpers ---
   function getZoneOverallPct(zone) {
@@ -38,7 +91,6 @@
     const pct = total > 0 ? Math.round((booked / total) * 100) : 0;
     const remaining = Math.max(0, total - booked);
 
-    // Build segments
     let segmentsHtml = '';
     demand.bookings.forEach(b => {
       const segWidth = ((b.amount / total) * 100).toFixed(1);
@@ -46,14 +98,13 @@
         <div class="need-bar-fill group relative" 
              style="width: ${segWidth}%; background-color: ${b.color || '#0284C7'};"
              title="${b.ngoName}: ${b.amount.toLocaleString()} ${demand.unit} (${segWidth}%)">
-          <div class="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10.5px] font-medium px-2 py-0.5 rounded shadow pointer-events-none whitespace-nowrap z-20">
+          <div class="opacity-0 group-hover:opacity-100 transition-opacity absolute bottom-full mb-1 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-[10.5px] font-medium px-2 py-0.5 rounded shadow-sm pointer-events-none whitespace-nowrap z-20">
             ${b.ngoName}: ${b.amount.toLocaleString()} ${demand.unit}
           </div>
         </div>
       `;
     });
 
-    // Shortage segment
     if (remaining > 0) {
       const remWidth = ((remaining / total) * 100).toFixed(1);
       segmentsHtml += `<div class="h-full bg-slate-100" style="width: ${remWidth}%;"></div>`;
@@ -73,19 +124,18 @@
         </div>
 
         <div class="flex justify-between items-center text-[11px] mt-1 text-slate-500">
-          <span>${pct >= 100 ? '✅ এই আইটেমটির বুকিং শতভাগ পূর্ণ' : `<strong class="text-rose-600 font-medium">⚠️ বাকি ঘাটতি: ${remaining.toLocaleString()} ${demand.unit}</strong>`}</span>
+          <span>${pct >= 100 ? '✅ এই আইটেমটির বুকিং শতভাগ পূর্ণ' : `<strong class="text-rose-600 font-medium">⚠️ বাকি প্রয়োজন: ${remaining.toLocaleString()} ${demand.unit}</strong>`}</span>
           <span class="text-[10.5px]">${demand.bookings.length > 0 ? demand.bookings.map(b => b.ngoName.split(' ')[0]).join(', ') : 'কেউ এখনো বুক করেনি'}</span>
         </div>
       </div>
     `;
   }
 
-  // --- Render Zone Cards in Segment 2 ---
+  // --- Render Zone Cards in Booking View ---
   function renderZones() {
     const container = document.getElementById('zones-list-container');
     if (!container) return;
 
-    // Filter zones
     let filtered = state.zones.filter(z => {
       const pct = getZoneOverallPct(z);
       const isComplete = pct >= 100;
@@ -101,7 +151,7 @@
       return true;
     });
 
-    // Sort: Incomplete critical first, completed last!
+    // Incomplete critical first, completed at the bottom!
     filtered.sort((a, b) => {
       const aDone = isZoneFullyCompleted(a) ? 1 : 0;
       const bDone = isZoneFullyCompleted(b) ? 1 : 0;
@@ -113,7 +163,7 @@
       container.innerHTML = `
         <div class="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
           <p class="text-3xl mb-2">🔍</p>
-          <p class="text-sm font-medium text-slate-600">কোনো ক্রাইসিস এলাকা পাওয়া যায়নি</p>
+          <p class="text-sm font-medium text-slate-600">কোনো সংকট এলাকা পাওয়া যায়নি</p>
         </div>
       `;
       return;
@@ -124,9 +174,9 @@
       const isComplete = pct >= 100;
 
       return `
-        <div class="ngo-card p-5 sm:p-6 mb-5 relative ${isComplete ? 'bg-slate-50/60 border-emerald-300' : ''}">
+        <div class="ngo-card p-5 sm:p-6 relative ${isComplete ? 'bg-slate-50/70 border-emerald-300' : ''}">
           
-          <!-- Card Header -->
+          <!-- Header -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
             <div>
               <div class="flex items-center gap-2">
@@ -136,11 +186,10 @@
                 </span>
               </div>
               <p class="text-xs text-slate-500 mt-1">
-                রিপোর্টকারী: <strong class="text-slate-700">${zone.reportedBy}</strong> (${zone.reportTime})
+                মাঠের তথ্যদাতা: <strong class="text-slate-700">${zone.reportedBy}</strong> (${zone.reportTime})
               </p>
             </div>
 
-            <!-- Status Badge -->
             <div>
               ${isComplete ? `
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
@@ -158,7 +207,7 @@
             </div>
           </div>
 
-          <!-- Situation Banner if completed -->
+          <!-- Completed Banner or Situation Details -->
           ${isComplete ? `
             <div class="completed-banner rounded-xl p-3.5 mb-4 text-xs font-medium flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -167,7 +216,6 @@
               </div>
             </div>
           ` : `
-            <!-- Ground Details -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
               <div>
                 <span class="text-slate-500">ক্ষতিগ্রস্ত পরিবার:</span>
@@ -180,7 +228,7 @@
             </div>
           `}
 
-          <!-- Need Progression Bars Section -->
+          <!-- Need Progression Bars -->
           <div class="mb-4">
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
               চাহিদা ও বুকিং প্রগ্রেসবার (Need Progressions)
@@ -204,7 +252,7 @@
                 </button>
               ` : `
                 <button onclick="window.openBookingModal('${zone.id}')" 
-                        class="py-2 px-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-sm transition flex items-center gap-1.5">
+                        class="py-2 px-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center gap-1.5">
                   <span>+</span>
                   <span>এই এলাকার জন্য ত্রাণ বুক করুন</span>
                 </button>
@@ -218,7 +266,7 @@
   }
 
   // --- Top Summary Stats ---
-  function updateStats() {
+  function updateTopStats() {
     const totalZones = state.zones.length;
     let completedZones = 0;
     let criticalZones = 0;
@@ -233,10 +281,21 @@
       totalFoodBooked += z.demands.food.booked;
     });
 
-    document.getElementById('stat-total-zones').innerText = totalZones;
-    document.getElementById('stat-critical-zones').innerText = criticalZones;
-    document.getElementById('stat-completed-zones').innerText = completedZones;
-    document.getElementById('stat-food-booked').innerText = totalFoodBooked.toLocaleString() + ' / ' + totalFoodNeeded.toLocaleString();
+    const elTotal = document.getElementById('stat-total-zones');
+    const elCrit = document.getElementById('stat-critical-zones');
+    const elDone = document.getElementById('stat-completed-zones');
+    const elFood = document.getElementById('stat-food-booked');
+
+    if (elTotal) elTotal.innerText = totalZones;
+    if (elCrit) elCrit.innerText = criticalZones;
+    if (elDone) elDone.innerText = completedZones;
+    if (elFood) elFood.innerText = totalFoodBooked.toLocaleString() + ' / ' + totalFoodNeeded.toLocaleString();
+
+    // Mini badges in header
+    const headCrit = document.getElementById('header-critical-count');
+    const headDone = document.getElementById('header-completed-count');
+    if (headCrit) headCrit.innerText = criticalZones;
+    if (headDone) headDone.innerText = completedZones;
   }
 
   // --- Booking Modal (ত্রাণ বুকিং) ---
@@ -248,28 +307,24 @@
     document.getElementById('book-zone-name').innerText = zone.name;
     document.getElementById('book-zone-info').innerText = `${zone.district} • ${zone.families} টি পরিবার`;
 
-    // Populate NGO select
+    // Populate NGO select from state.ngos
     const ngoSelect = document.getElementById('book-ngo-select');
     ngoSelect.innerHTML = state.ngos.map(n => `
       <option value="${n.name}">${n.name}</option>
-    `).join('') + `<option value="other">+ অন্য কোনো এনজিও / ব্যক্তিগত সংস্থা</option>`;
+    `).join('') + `<option value="other">+ নতুন সংস্থা / স্বতন্ত্র ডোনার</option>`;
 
-    // Category options with remaining amounts
-    updateBookingCategoryHints(zone);
-
-    const modal = document.getElementById('booking-modal');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-  };
-
-  function updateBookingCategoryHints(zone) {
+    // Categories
     const catSelect = document.getElementById('book-category-select');
     catSelect.innerHTML = Object.keys(zone.demands).map(k => {
       const d = zone.demands[k];
       const remaining = Math.max(0, d.total - d.booked);
       return `<option value="${k}">${d.name} (বাকি প্রয়োজন: ${remaining.toLocaleString()} ${d.unit})</option>`;
     }).join('');
-  }
+
+    const modal = document.getElementById('booking-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  };
 
   window.closeBookingModal = function () {
     const modal = document.getElementById('booking-modal');
@@ -288,6 +343,7 @@
     }
     const category = document.getElementById('book-category-select').value;
     const amount = parseInt(document.getElementById('book-amount-input').value, 10);
+    const convoyNote = document.getElementById('book-convoy-input').value.trim() || 'ত্রাণবাহী পিকআপ-০১';
 
     if (!amount || amount <= 0) {
       alert('অনুগ্রহ করে সঠিক পরিমাণ লিখুন!');
@@ -298,7 +354,6 @@
     if (!zone) return;
 
     const demand = zone.demands[category];
-    const prevBooked = demand.booked;
     demand.booked = Math.min(demand.total, demand.booked + amount);
     
     // Add booking entry
@@ -308,12 +363,25 @@
       ngoName: ngoName,
       amount: amount,
       time: 'এইমাত্র',
-      color: randomColor
+      color: randomColor,
+      status: 'In Transit',
+      convoyNo: convoyNote
+    });
+
+    // Also add to global dispatches ledger!
+    state.dispatches.unshift({
+      id: 'd-' + Date.now(),
+      ngoName: ngoName,
+      zoneName: zone.name,
+      items: `${amount.toLocaleString()} ${demand.unit} (${demand.name.split('(')[0]})`,
+      vehicle: convoyNote,
+      status: 'In Transit',
+      time: 'এইমাত্র'
     });
 
     saveState();
     renderZones();
-    updateStats();
+    updateTopStats();
     closeBookingModal();
 
     const isNowComplete = isZoneFullyCompleted(zone);
@@ -324,7 +392,7 @@
     }
   };
 
-  // --- Segment 1: Grassroots Scout Post Form ---
+  // --- View 2: Post Needs Form (Scout) ---
   window.submitScoutPost = function (e) {
     e.preventDefault();
     const areaName = document.getElementById('scout-area-name').value.trim();
@@ -350,51 +418,195 @@
       people: Math.round(families * 4.5),
       waterLevel: waterDepth,
       demands: {
-        food: {
-          name: 'শুকনো খাদ্য (প্যাকেট)',
-          total: foodQty,
-          booked: 0,
-          unit: 'প্যাকেট',
-          bookings: []
-        },
-        water: {
-          name: 'খাবার পানি (গ্যালন)',
-          total: waterQty,
-          booked: 0,
-          unit: 'গ্যালন',
-          bookings: []
-        },
-        medical: {
-          name: 'স্যালাইন ও জরুরি ওষুধ (কিট)',
-          total: medicalQty,
-          booked: 0,
-          unit: 'কিট',
-          bookings: []
-        },
-        babyFood: {
-          name: 'শিশু খাদ্য ও দুধ (প্যাক)',
-          total: babyQty,
-          booked: 0,
-          unit: 'প্যাক',
-          bookings: []
-        }
+        food: { name: 'শুকনো খাদ্য (প্যাকেট)', total: foodQty, booked: 0, unit: 'প্যাকেট', bookings: [] },
+        water: { name: 'খাবার পানি (গ্যালন)', total: waterQty, booked: 0, unit: 'গ্যালন', bookings: [] },
+        medical: { name: 'স্যালাইন ও জরুরি ওষুধ (কিট)', total: medicalQty, booked: 0, unit: 'কিট', bookings: [] },
+        babyFood: { name: 'শিশু খাদ্য ও দুধ (প্যাক)', total: babyQty, booked: 0, unit: 'প্যাক', bookings: [] }
       }
     };
 
     state.zones.unshift(newZone);
     saveState();
-    renderZones();
-    updateStats();
-
-    // Reset Form
     e.target.reset();
 
-    // Show feedback & switch to donor view
-    alert(`📢 নতুন ক্রাইসিস রিপোর্ট যোগ হয়েছে! '${areaName}' এলাকার জন্য ০% নিডবার তৈরি করা হয়েছে। ডোনার এনজিওরা এখন এটি সরাসরি বুক করতে পারবে।`);
-    
-    // Scroll to zones
-    document.getElementById('zones-section').scrollIntoView({ behavior: 'smooth' });
+    alert(`📢 নতুন ক্রাইসিস এলাকা সফলভাবে যুক্ত হয়েছে! '${areaName}' এলাকার ০% নিডবার তৈরি হয়েছে। আপনাকে বুকিং ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে।`);
+    window.switchTab('booking');
   };
+
+  // --- View 3: New NGO Registration ---
+  window.submitNgoRegistration = function (e) {
+    e.preventDefault();
+    const name = document.getElementById('reg-ngo-name').value.trim();
+    const short = document.getElementById('reg-ngo-short').value.trim();
+    const regNo = document.getElementById('reg-ngo-num').value.trim() || 'VERIF-PENDING';
+    const contact = document.getElementById('reg-ngo-contact').value.trim();
+    const hq = document.getElementById('reg-ngo-hq').value.trim();
+    const focus = document.getElementById('reg-ngo-focus').value.trim() || 'খাদ্য ও পানি সরবরাহ';
+    const capacity = document.getElementById('reg-ngo-capacity').value.trim() || '১টি ত্রাণ কনভয়';
+
+    const colors = ['#0284C7', '#059669', '#DC2626', '#D97706', '#7C3AED', '#0D9488', '#2563EB'];
+    const randomColor = colors[Math.floor(Math.random() * colors.length)];
+
+    const newNgo = {
+      id: 'ngo-' + Date.now(),
+      name: name,
+      short: short,
+      color: randomColor,
+      regNo: regNo,
+      contact: contact,
+      headquarters: hq,
+      capacity: capacity,
+      focus: focus,
+      totalDispatched: 0,
+      verified: true
+    };
+
+    state.ngos.unshift(newNgo);
+    saveState();
+    e.target.reset();
+
+    alert(`🎉 স্বাগতম! '${name}' সফলভাবে ডোনার এনজিও হিসেবে নিবন্ধিত হয়েছে। এখন আপনি সরাসরি বুকিং তালিকায় এই এনজিওর নামে ত্রাণ বরাদ্দ করতে পারবেন।`);
+    window.switchTab('booking');
+  };
+
+  // --- View 4: Dispatch Management & Pass ---
+  function renderDispatchList() {
+    const tbody = document.getElementById('dispatch-table-body');
+    const filterSelect = document.getElementById('dispatch-ngo-filter');
+    if (!tbody) return;
+
+    // Populate filter select if needed
+    if (filterSelect && filterSelect.options.length <= 1) {
+      filterSelect.innerHTML = `<option value="all">সকল এনজিওর চালান</option>` + state.ngos.map(n => `
+        <option value="${n.name}">${n.name}</option>
+      `).join('');
+    }
+
+    const currentFilter = filterSelect ? filterSelect.value : 'all';
+    let list = state.dispatches;
+    if (currentFilter !== 'all') {
+      list = list.filter(d => d.ngoName === currentFilter);
+    }
+
+    if (list.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-slate-400">কোনো চালান পাওয়া যায়নি</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(d => `
+      <tr class="hover:bg-slate-50 transition">
+        <td class="py-3 px-3 font-bold text-slate-900">${d.ngoName}</td>
+        <td class="py-3 px-3 text-sky-700 font-semibold">${d.zoneName}</td>
+        <td class="py-3 px-3 text-slate-700 font-medium">${d.items}</td>
+        <td class="py-3 px-3 text-slate-500">${d.vehicle}</td>
+        <td class="py-3 px-3">
+          <select onchange="window.updateDispatchStatus('${d.id}', this.value)" class="text-[11px] font-bold py-1 px-2 rounded-md border ${
+            d.status === 'Delivered' ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-amber-50 text-amber-800 border-amber-300'
+          }">
+            <option value="In Transit" ${d.status === 'In Transit' ? 'selected' : ''}>🚚 রাস্তায় আছে (In Transit)</option>
+            <option value="Delivered" ${d.status === 'Delivered' ? 'selected' : ''}>✅ বিতরণ সম্পন্ন (Delivered)</option>
+          </select>
+        </td>
+        <td class="py-3 px-3 text-right">
+          <button onclick="window.openPassModal('${d.id}')" class="py-1 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded text-[11px] border border-slate-300 transition">
+            📄 ছাড়পত্র স্লিপ
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  window.filterDispatchList = function () {
+    renderDispatchList();
+  };
+
+  window.updateDispatchStatus = function (id, newStatus) {
+    const item = state.dispatches.find(d => d.id === id);
+    if (item) {
+      item.status = newStatus;
+      saveState();
+      renderDispatchList();
+    }
+  };
+
+  // --- Digital Relief Pass Modal ---
+  window.openPassModal = function (dispatchId) {
+    const item = state.dispatches.find(d => d.id === dispatchId);
+    if (!item) return;
+
+    const content = document.getElementById('pass-modal-content');
+    content.innerHTML = `
+      <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+        <div class="flex justify-between border-b border-slate-200 pb-2">
+          <span class="text-slate-500">অনুমোদিত সংস্থা / এনজিও:</span>
+          <strong class="text-slate-900">${item.ngoName}</strong>
+        </div>
+        <div class="flex justify-between border-b border-slate-200 pb-2">
+          <span class="text-slate-500">গন্তব্য ক্রাইসিস জোন:</span>
+          <strong class="text-sky-700">${item.zoneName}</strong>
+        </div>
+        <div class="flex justify-between border-b border-slate-200 pb-2">
+          <span class="text-slate-500">অনুমোদিত ত্রাণ সামগ্রী:</span>
+          <strong class="text-slate-900 font-num">${item.items}</strong>
+        </div>
+        <div class="flex justify-between border-b border-slate-200 pb-2">
+          <span class="text-slate-500">কনভয় / গাড়ির নম্বর:</span>
+          <strong class="text-slate-800">${item.vehicle}</strong>
+        </div>
+        <div class="flex justify-between pt-1">
+          <span class="text-slate-500">চালানের বর্তমান স্ট্যাটাস:</span>
+          <strong class="${item.status === 'Delivered' ? 'text-emerald-700' : 'text-amber-700'} font-bold">${item.status === 'Delivered' ? '✅ বিতরণ সফলভাবে সম্পন্ন' : '🚚 রাস্তায় চলমান (জরুরি কনভয়)'}</strong>
+        </div>
+      </div>
+      <p class="text-[11px] text-slate-400 italic text-center">হাইওয়ে চেকপোস্ট, পুলিশ বা নৌবাহিনীর সদস্যদের এই গাড়ির গমনাগমনে পূর্ণ মানবিক সহযোগিতা প্রদানের অনুরোধ করা যাচ্ছে।</p>
+    `;
+
+    const m = document.getElementById('pass-modal');
+    m.classList.remove('hidden');
+    m.classList.add('flex');
+  };
+
+  window.closePassModal = function () {
+    const m = document.getElementById('pass-modal');
+    if (m) {
+      m.classList.add('hidden');
+      m.classList.remove('flex');
+    }
+  };
+
+  // --- View 5: NGO Directory Grid ---
+  function renderNgoDirectory() {
+    const grid = document.getElementById('ngo-directory-grid');
+    if (!grid) return;
+
+    grid.innerHTML = state.ngos.map(n => `
+      <div class="ngo-card p-4 flex flex-col justify-between">
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <h4 class="font-bold text-sm text-slate-900">${n.name}</h4>
+            <span class="text-[10px] px-2 py-0.5 rounded font-bold bg-sky-50 text-sky-700 border border-sky-200">
+              ভেরিফাইড পার্টনার
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 mb-2">নিবন্ধন নম্বর: <span class="font-num font-semibold text-slate-700">${n.regNo || 'N/A'}</span></p>
+          <div class="text-xs text-slate-600 mb-1">
+            <strong>হেডকোয়ার্টার:</strong> ${n.headquarters || 'ঢাকা'}
+          </div>
+          <div class="text-xs text-slate-600 mb-2">
+            <strong>লজিস্টিকস:</strong> ${n.capacity || 'জরুরি ত্রাণ বহর'}
+          </div>
+          <div class="text-xs text-slate-500">
+            <strong>যোগাযোগ:</strong> ${n.contact || 'হটলাইন উপলব্ধ'}
+          </div>
+        </div>
+
+        <div class="mt-4 pt-2.5 border-t border-slate-100 flex items-center justify-between text-xs">
+          <span class="text-slate-500">মোট বিতরণকৃত ত্রাণ:</span>
+          <span class="font-num font-bold text-sky-700">${n.totalDispatched ? n.totalDispatched.toLocaleString() + ' প্যাকেট' : 'সক্রিয় পার্টনার'}</span>
+        </div>
+      </div>
+    `).join('');
+  }
 
   // --- Filter and Search Controls ---
   function initControls() {
@@ -436,7 +648,7 @@
   // --- Initialization ---
   document.addEventListener('DOMContentLoaded', () => {
     renderZones();
-    updateStats();
+    updateTopStats();
     initControls();
   });
 
