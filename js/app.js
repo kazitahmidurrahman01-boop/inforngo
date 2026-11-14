@@ -2,6 +2,13 @@
 (function () {
   'use strict';
 
+  // Helper to refresh Lucide icons
+  function refreshIcons() {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
+    }
+  }
+
   // --- App State ---
   const state = {
     zones: JSON.parse(localStorage.getItem('inforngo_v3_zones')) || window.INFODATA.zones,
@@ -65,6 +72,7 @@
       renderNgoDirectory();
     }
 
+    refreshIcons();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -91,6 +99,12 @@
     const pct = total > 0 ? Math.round((booked / total) * 100) : 0;
     const remaining = Math.max(0, total - booked);
 
+    // Pick icon by demand type
+    let iconName = 'package';
+    if (key === 'water') iconName = 'droplet';
+    else if (key === 'medical') iconName = 'pill';
+    else if (key === 'babyFood') iconName = 'baby';
+
     let segmentsHtml = '';
     demand.bookings.forEach(b => {
       const segWidth = ((b.amount / total) * 100).toFixed(1);
@@ -113,7 +127,10 @@
     return `
       <div class="mb-3.5 last:mb-0">
         <div class="flex justify-between items-center text-xs mb-1.5">
-          <span class="font-semibold text-slate-700">${demand.name}</span>
+          <span class="font-semibold text-slate-700 flex items-center gap-1.5">
+            <i data-lucide="${iconName}" class="w-3.5 h-3.5 text-slate-500"></i>
+            <span>${demand.name}</span>
+          </span>
           <span class="font-num font-bold ${pct >= 100 ? 'text-emerald-700' : pct < 30 ? 'text-rose-700' : 'text-amber-700'}">
             ${booked.toLocaleString()} / ${total.toLocaleString()} ${demand.unit} (${pct}%)
           </span>
@@ -124,8 +141,12 @@
         </div>
 
         <div class="flex justify-between items-center text-[11px] mt-1 text-slate-500">
-          <span>${pct >= 100 ? '✅ এই আইটেমটির বুকিং শতভাগ পূর্ণ' : `<strong class="text-rose-600 font-medium">⚠️ বাকি প্রয়োজন: ${remaining.toLocaleString()} ${demand.unit}</strong>`}</span>
-          <span class="text-[10.5px]">${demand.bookings.length > 0 ? demand.bookings.map(b => b.ngoName.split(' ')[0]).join(', ') : 'কেউ এখনো বুক করেনি'}</span>
+          <span>${
+            pct >= 100 
+              ? `<span class="inline-flex items-center gap-1 text-emerald-700 font-semibold"><i data-lucide="check" class="w-3 h-3"></i> এই আইটেমটির বুকিং শতভাগ পূর্ণ</span>` 
+              : `<span class="inline-flex items-center gap-1 text-rose-600 font-semibold"><i data-lucide="alert-circle" class="w-3 h-3"></i> বাকি প্রয়োজন: ${remaining.toLocaleString()} ${demand.unit}</span>`
+          }</span>
+          <span class="text-[10.5px] text-slate-500">${demand.bookings.length > 0 ? demand.bookings.map(b => b.ngoName.split(' ')[0]).join(', ') : 'কেউ এখনো বুক করেনি'}</span>
         </div>
       </div>
     `;
@@ -151,7 +172,7 @@
       return true;
     });
 
-    // Incomplete critical first, completed at the bottom!
+    // Sort: Incomplete critical first, completed last!
     filtered.sort((a, b) => {
       const aDone = isZoneFullyCompleted(a) ? 1 : 0;
       const bDone = isZoneFullyCompleted(b) ? 1 : 0;
@@ -162,10 +183,11 @@
     if (filtered.length === 0) {
       container.innerHTML = `
         <div class="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
-          <p class="text-3xl mb-2">🔍</p>
+          <i data-lucide="search-x" class="w-8 h-8 mx-auto text-slate-300 mb-2"></i>
           <p class="text-sm font-medium text-slate-600">কোনো সংকট এলাকা পাওয়া যায়নি</p>
         </div>
       `;
+      refreshIcons();
       return;
     }
 
@@ -181,8 +203,9 @@
             <div>
               <div class="flex items-center gap-2">
                 <h3 class="text-lg font-bold text-slate-900">${zone.name}</h3>
-                <span class="text-xs px-2 py-0.5 rounded-md font-semibold bg-slate-100 text-slate-700 border border-slate-200">
-                  📍 ${zone.district}
+                <span class="text-xs px-2 py-0.5 rounded-md font-semibold bg-slate-100 text-slate-700 border border-slate-200 inline-flex items-center gap-1">
+                  <i data-lucide="map-pin" class="w-3 h-3 text-slate-500"></i>
+                  <span>${zone.district}</span>
                 </span>
               </div>
               <p class="text-xs text-slate-500 mt-1">
@@ -193,15 +216,18 @@
             <div>
               ${isComplete ? `
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                  ✅ ১০০% বুকিং সম্পন্ন • সুরক্ষিত
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-700"></i>
+                  <span>১০০% বুকিং সম্পন্ন • সুরক্ষিত</span>
                 </span>
               ` : pct < 30 ? `
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300">
-                  🚨 জরুরি অগ্রাধিকার (মাত্র ${pct}% বুকড)
+                  <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-700"></i>
+                  <span>জরুরি অগ্রাধিকার (মাত্র ${pct}% বুকড)</span>
                 </span>
               ` : `
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
-                  🟡 আংশিক বুকড (${pct}% সম্পন্ন)
+                  <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-700"></i>
+                  <span>আংশিক বুকড (${pct}% সম্পন্ন)</span>
                 </span>
               `}
             </div>
@@ -210,18 +236,20 @@
           <!-- Completed Banner or Situation Details -->
           ${isComplete ? `
             <div class="completed-banner rounded-xl p-3.5 mb-4 text-xs font-medium flex items-center justify-between">
-              <div class="flex items-center gap-2">
-                <span class="text-lg">🎉</span>
+              <div class="flex items-center gap-2.5">
+                <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 shrink-0"></i>
                 <span>এই এলাকায় খাদ্য, পানি ও প্রয়োজনীয় ওষুধের শতভাগ বুকিং সম্পন্ন হয়েছে। <strong>আপাতত এখানে নতুন ত্রাণের গাড়ি না পাঠিয়ে অন্য সংকট এলাকায় অগ্রাধিকার দিন।</strong></span>
               </div>
             </div>
           ` : `
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
-              <div>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
                 <span class="text-slate-500">ক্ষতিগ্রস্ত পরিবার:</span>
                 <strong class="text-slate-800 font-num ml-1">${zone.families.toLocaleString()} পরিবার (${zone.people.toLocaleString()} জন)</strong>
               </div>
-              <div>
+              <div class="flex items-center gap-1.5">
+                <i data-lucide="waves" class="w-3.5 h-3.5 text-sky-500"></i>
                 <span class="text-slate-500">পানির পরিস্থিতি:</span>
                 <strong class="text-slate-800 ml-1">${zone.waterLevel}</strong>
               </div>
@@ -247,13 +275,14 @@
 
             <div>
               ${isComplete ? `
-                <button disabled class="py-2 px-4 bg-slate-100 text-slate-400 font-semibold rounded-lg text-xs cursor-not-allowed">
-                  ✓ বুকিং কোটা পূর্ণ
+                <button disabled class="py-2 px-4 bg-slate-100 text-slate-400 font-semibold rounded-lg text-xs cursor-not-allowed flex items-center gap-1.5">
+                  <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  <span>বুকিং কোটা পূর্ণ</span>
                 </button>
               ` : `
                 <button onclick="window.openBookingModal('${zone.id}')" 
                         class="py-2 px-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center gap-1.5">
-                  <span>+</span>
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
                   <span>এই এলাকার জন্য ত্রাণ বুক করুন</span>
                 </button>
               `}
@@ -263,6 +292,8 @@
         </div>
       `;
     }).join('');
+
+    refreshIcons();
   }
 
   // --- Top Summary Stats ---
@@ -324,6 +355,7 @@
     const modal = document.getElementById('booking-modal');
     modal.classList.remove('hidden');
     modal.classList.add('flex');
+    refreshIcons();
   };
 
   window.closeBookingModal = function () {
@@ -475,7 +507,6 @@
     const filterSelect = document.getElementById('dispatch-ngo-filter');
     if (!tbody) return;
 
-    // Populate filter select if needed
     if (filterSelect && filterSelect.options.length <= 1) {
       filterSelect.innerHTML = `<option value="all">সকল এনজিওর চালান</option>` + state.ngos.map(n => `
         <option value="${n.name}">${n.name}</option>
@@ -503,17 +534,20 @@
           <select onchange="window.updateDispatchStatus('${d.id}', this.value)" class="text-[11px] font-bold py-1 px-2 rounded-md border ${
             d.status === 'Delivered' ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-amber-50 text-amber-800 border-amber-300'
           }">
-            <option value="In Transit" ${d.status === 'In Transit' ? 'selected' : ''}>🚚 রাস্তায় আছে (In Transit)</option>
-            <option value="Delivered" ${d.status === 'Delivered' ? 'selected' : ''}>✅ বিতরণ সম্পন্ন (Delivered)</option>
+            <option value="In Transit" ${d.status === 'In Transit' ? 'selected' : ''}>রাস্তায় আছে (In Transit)</option>
+            <option value="Delivered" ${d.status === 'Delivered' ? 'selected' : ''}>বিতরণ সম্পন্ন (Delivered)</option>
           </select>
         </td>
         <td class="py-3 px-3 text-right">
-          <button onclick="window.openPassModal('${d.id}')" class="py-1 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded text-[11px] border border-slate-300 transition">
-            📄 ছাড়পত্র স্লিপ
+          <button onclick="window.openPassModal('${d.id}')" class="py-1 px-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded text-[11px] border border-slate-300 transition inline-flex items-center gap-1">
+            <i data-lucide="file-text" class="w-3 h-3 text-slate-600"></i>
+            <span>ছাড়পত্র স্লিপ</span>
           </button>
         </td>
       </tr>
     `).join('');
+
+    refreshIcons();
   }
 
   window.filterDispatchList = function () {
@@ -555,7 +589,10 @@
         </div>
         <div class="flex justify-between pt-1">
           <span class="text-slate-500">চালানের বর্তমান স্ট্যাটাস:</span>
-          <strong class="${item.status === 'Delivered' ? 'text-emerald-700' : 'text-amber-700'} font-bold">${item.status === 'Delivered' ? '✅ বিতরণ সফলভাবে সম্পন্ন' : '🚚 রাস্তায় চলমান (জরুরি কনভয়)'}</strong>
+          <strong class="${item.status === 'Delivered' ? 'text-emerald-700' : 'text-amber-700'} font-bold flex items-center gap-1">
+            <i data-lucide="${item.status === 'Delivered' ? 'check-circle-2' : 'truck'}" class="w-3.5 h-3.5"></i>
+            <span>${item.status === 'Delivered' ? 'বিতরণ সফলভাবে সম্পন্ন' : 'রাস্তায় চলমান (জরুরি কনভয়)'}</span>
+          </strong>
         </div>
       </div>
       <p class="text-[11px] text-slate-400 italic text-center">হাইওয়ে চেকপোস্ট, পুলিশ বা নৌবাহিনীর সদস্যদের এই গাড়ির গমনাগমনে পূর্ণ মানবিক সহযোগিতা প্রদানের অনুরোধ করা যাচ্ছে।</p>
@@ -564,6 +601,7 @@
     const m = document.getElementById('pass-modal');
     m.classList.remove('hidden');
     m.classList.add('flex');
+    refreshIcons();
   };
 
   window.closePassModal = function () {
@@ -584,8 +622,9 @@
         <div>
           <div class="flex items-center justify-between mb-2">
             <h4 class="font-bold text-sm text-slate-900">${n.name}</h4>
-            <span class="text-[10px] px-2 py-0.5 rounded font-bold bg-sky-50 text-sky-700 border border-sky-200">
-              ভেরিফাইড পার্টনার
+            <span class="text-[10px] px-2 py-0.5 rounded font-bold bg-sky-50 text-sky-700 border border-sky-200 inline-flex items-center gap-1">
+              <i data-lucide="shield-check" class="w-3 h-3 text-sky-600"></i>
+              <span>ভেরিফাইড</span>
             </span>
           </div>
           <p class="text-xs text-slate-500 mb-2">নিবন্ধন নম্বর: <span class="font-num font-semibold text-slate-700">${n.regNo || 'N/A'}</span></p>
@@ -606,6 +645,8 @@
         </div>
       </div>
     `).join('');
+
+    refreshIcons();
   }
 
   // --- Filter and Search Controls ---
@@ -650,6 +691,7 @@
     renderZones();
     updateTopStats();
     initControls();
+    refreshIcons();
   });
 
 })();

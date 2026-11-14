@@ -8,6 +8,9 @@
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
+  <!-- Lucide Vector Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -18,32 +21,32 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
       
       <!-- Top Brand Row -->
-      <div class="py-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100">
-        <!-- Logo -->
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white font-extrabold text-xl shadow-xs">
-            IN
-          </div>
+      <div class="py-2.5 flex flex-col sm:flex-row items-center justify-between gap-3 border-b border-slate-100">
+        <!-- Logo & Branding -->
+        <div class="flex items-center gap-3 cursor-pointer" onclick="window.switchTab('booking')">
+          <img src="assets/logo.png" alt="INFOrNGO Logo" class="w-11 h-11 rounded-xl object-contain shadow-xs border border-slate-100">
           <div>
             <div class="flex items-center gap-2">
-              <span class="text-xl font-extrabold tracking-tight text-slate-900 cursor-pointer" onclick="window.switchTab('booking')">
+              <span class="text-xl font-extrabold tracking-tight text-slate-900">
                 INFOR<span class="text-sky-600">NGO</span>
               </span>
-              <span class="text-[10.5px] font-bold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
+              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">
                 লাইভ গ্রিড
               </span>
             </div>
-            <p class="text-xs text-slate-500">দুর্যোগে প্রতিটি এলাকায় সুষম ত্রাণ বণ্টন ও সমন্বিত নিড-ট্র্যাকার</p>
+            <p class="text-[11.5px] text-slate-500 font-medium">দুর্যোগে প্রতিটি এলাকায় সুষম ত্রাণ বণ্টন ও সমন্বিত নিড-ট্র্যাকার</p>
           </div>
         </div>
 
         <!-- Quick Summary Mini-Badges -->
         <div class="flex items-center gap-2 text-xs">
-          <span class="px-2.5 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg font-bold">
-            🚨 <span id="header-critical-count">২</span> টি চরম সংকট
+          <span class="px-2.5 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg font-bold flex items-center gap-1.5">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-600"></i>
+            <span><span id="header-critical-count">২</span> টি চরম সংকট</span>
           </span>
-          <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg font-bold">
-            ✅ <span id="header-completed-count">১</span> টি সম্পন্ন জোন
+          <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg font-bold flex items-center gap-1.5">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+            <span><span id="header-completed-count">১</span> টি সম্পন্ন জোন</span>
           </span>
         </div>
       </div>
@@ -52,31 +55,31 @@
       <nav class="flex items-center gap-1.5 py-2 overflow-x-auto text-xs font-bold">
         <button onclick="window.switchTab('booking')" id="tab-nav-booking"
                 class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 bg-sky-600 text-white shadow-xs">
-          <span>🤝</span>
+          <i data-lucide="heart-handshake" class="w-4 h-4"></i>
           <span>ত্রাণ বুকিং ড্যাশবোর্ড</span>
         </button>
 
         <button onclick="window.switchTab('post')" id="tab-nav-post"
                 class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-          <span>📢</span>
+          <i data-lucide="megaphone" class="w-4 h-4"></i>
           <span>চাহিদা পোস্ট করুন (গ্রাউন্ড এনজিও)</span>
         </button>
 
         <button onclick="window.switchTab('register')" id="tab-nav-register"
                 class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-          <span>🏢</span>
+          <i data-lucide="building-2" class="w-4 h-4"></i>
           <span>নতুন ডোনার এনজিও রেজিস্ট্রেশন</span>
         </button>
 
         <button onclick="window.switchTab('dispatch')" id="tab-nav-dispatch"
                 class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-          <span>🚚</span>
+          <i data-lucide="truck" class="w-4 h-4"></i>
           <span>কনভয় ও ডিসপ্যাচ ট্র্যাকার</span>
         </button>
 
         <button onclick="window.switchTab('directory')" id="tab-nav-directory"
                 class="nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100">
-          <span>📋</span>
+          <i data-lucide="clipboard-list" class="w-4 h-4"></i>
           <span>পার্টনার এনজিও ডিরেক্টরি</span>
         </button>
       </nav>
@@ -95,19 +98,31 @@
       <!-- Top Overview Stats -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">মোট সংকট এলাকা</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center justify-between">
+            <span>মোট সংকট এলাকা</span>
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400"></i>
+          </div>
           <div id="stat-total-zones" class="text-2xl font-black text-slate-900 font-num mt-1">৫</div>
         </div>
         <div class="bg-white p-4 rounded-xl border border-rose-200 bg-rose-50/20 shadow-xs">
-          <div class="text-[11px] font-bold uppercase tracking-wider text-rose-600">জরুরি অগ্রাধিকার (০-৩০%)</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-rose-600 flex items-center justify-between">
+            <span>জরুরি অগ্রাধিকার (০-৩০%)</span>
+            <i data-lucide="alert-circle" class="w-3.5 h-3.5 text-rose-500"></i>
+          </div>
           <div id="stat-critical-zones" class="text-2xl font-black text-rose-600 font-num mt-1">২</div>
         </div>
         <div class="bg-white p-4 rounded-xl border border-emerald-200 bg-emerald-50/20 shadow-xs">
-          <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-700">১০০% বুকিং সম্পন্ন (সুরক্ষিত)</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-emerald-700 flex items-center justify-between">
+            <span>১০০% বুকিং সম্পন্ন (সুরক্ষিত)</span>
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-600"></i>
+          </div>
           <div id="stat-completed-zones" class="text-2xl font-black text-emerald-700 font-num mt-1">১</div>
         </div>
         <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-xs">
-          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500">খাদ্য প্যাকেট অগ্রগতি</div>
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-500 flex items-center justify-between">
+            <span>খাদ্য প্যাকেট অগ্রগতি</span>
+            <i data-lucide="package" class="w-3.5 h-3.5 text-slate-400"></i>
+          </div>
           <div id="stat-food-booked" class="text-lg font-black text-slate-900 font-num mt-1.5 truncate">৩,৯৫০ / ৮,৩০০</div>
         </div>
       </div>
@@ -122,9 +137,10 @@
         </div>
 
         <!-- Search Bar -->
-        <div class="w-full sm:w-72">
+        <div class="w-full sm:w-72 relative">
           <input type="text" id="search-input" placeholder="এলাকা বা জেলা দিয়ে খুঁজুন (যেমন: খুলনা, ফেনী)..." 
-                 class="w-full bg-white border border-slate-300 text-slate-800 placeholder-slate-400 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-sky-600 transition shadow-xs">
+                 class="w-full bg-white border border-slate-300 text-slate-800 placeholder-slate-400 rounded-xl pl-3.5 pr-8 py-2 text-xs focus:outline-none focus:border-sky-600 transition shadow-xs">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-slate-400 absolute right-3 top-2.5 pointer-events-none"></i>
         </div>
       </div>
 
@@ -133,14 +149,17 @@
         <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-bold transition bg-sky-600 text-white shadow-xs" data-filter="all">
           সকল এলাকা
         </button>
-        <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition bg-white text-slate-600 border border-slate-200 hover:border-slate-300" data-filter="critical">
-          🔴 চরম সংকট (০-৩০%)
+        <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition bg-white text-slate-600 border border-slate-200 hover:border-slate-300 flex items-center gap-1.5" data-filter="critical">
+          <span class="w-2 h-2 rounded-full bg-rose-600"></span>
+          <span>চরম সংকট (০-৩০%)</span>
         </button>
-        <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition bg-white text-slate-600 border border-slate-200 hover:border-slate-300" data-filter="partial">
-          🟡 আংশিক বুকড (৩০-৯৯%)
+        <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition bg-white text-slate-600 border border-slate-200 hover:border-slate-300 flex items-center gap-1.5" data-filter="partial">
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          <span>আংশিক বুকড (৩০-৯৯%)</span>
         </button>
-        <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition bg-white text-slate-600 border border-slate-200 hover:border-slate-300" data-filter="completed">
-          🟢 ১০০% বুকিং সম্পন্ন (সুরক্ষিত জোন)
+        <button class="filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium transition bg-white text-slate-600 border border-slate-200 hover:border-slate-300 flex items-center gap-1.5" data-filter="completed">
+          <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+          <span>১০০% বুকিং সম্পন্ন (সুরক্ষিত)</span>
         </button>
       </div>
 
@@ -157,8 +176,8 @@
     <div id="view-post" class="view-panel hidden flex flex-col gap-5">
       <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs">
         <div class="flex items-center gap-3 mb-2 pb-3 border-b border-slate-100">
-          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold text-xl">
-            📢
+          <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
+            <i data-lucide="megaphone" class="w-5 h-5"></i>
           </div>
           <div>
             <h2 class="text-lg font-extrabold text-slate-900">মাঠপর্যায়ের নতুন দুর্যোগ ও চাহিদা পোস্ট ফরম</h2>
@@ -213,22 +232,22 @@
             <div class="text-xs font-bold text-slate-800 mb-2.5">কী কী জিনিস লাগবে এবং কত পরিমাণে লাগবে? (চাহিদা নিরূপণ):</div>
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
               <div>
-                <label class="block text-[11px] font-semibold text-slate-600 mb-1">📦 শুকনো খাবার (প্যাকেট):</label>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">শুকনো খাবার (প্যাকেট):</label>
                 <input type="number" id="scout-food-qty" required placeholder="যেমন: ১৫০০" 
                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-slate-600 mb-1">💧 খাবার পানি (গ্যালন):</label>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">খাবার পানি (গ্যালন):</label>
                 <input type="number" id="scout-water-qty" required placeholder="যেমন: ৫০০" 
                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-slate-600 mb-1">💊 ওষুধ ও স্যালাইন (কিট):</label>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">ওষুধ ও স্যালাইন (কিট):</label>
                 <input type="number" id="scout-medical-qty" placeholder="যেমন: ৩০০" 
                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
               </div>
               <div>
-                <label class="block text-[11px] font-semibold text-slate-600 mb-1">🍼 শিশুখাদ্য ও দুধ (প্যাক):</label>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">শিশুখাদ্য ও দুধ (প্যাক):</label>
                 <input type="number" id="scout-baby-qty" placeholder="যেমন: ২০০" 
                        class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 font-num font-bold focus:outline-none focus:border-sky-600">
               </div>
@@ -244,7 +263,7 @@
             </div>
 
             <button type="submit" class="w-full sm:w-auto py-2.5 px-6 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center justify-center gap-2">
-              <span>📢</span>
+              <i data-lucide="send" class="w-3.5 h-3.5"></i>
               <span>চাহিদা পোস্ট ও নিডবার প্রকাশ করুন</span>
             </button>
           </div>
@@ -259,8 +278,8 @@
     <div id="view-register" class="view-panel hidden flex flex-col gap-5">
       <div class="bg-white rounded-2xl border border-slate-200 p-6 sm:p-7 shadow-xs">
         <div class="flex items-center gap-3 mb-2 pb-3 border-b border-slate-100">
-          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xl">
-            🏢
+          <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+            <i data-lucide="building-2" class="w-5 h-5"></i>
           </div>
           <div>
             <h2 class="text-lg font-extrabold text-slate-900">নতুন ডোনার এনজিও রেজিস্ট্রেশন ফরম</h2>
@@ -319,7 +338,7 @@
           <!-- Submit -->
           <div class="pt-2">
             <button type="submit" class="py-2.5 px-6 bg-emerald-700 hover:bg-emerald-800 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center justify-center gap-2">
-              <span>✓</span>
+              <i data-lucide="check" class="w-4 h-4"></i>
               <span>এনজিও রেজিস্ট্রেশন সম্পন্ন করুন</span>
             </button>
           </div>
@@ -336,7 +355,8 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100">
           <div>
             <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
-              <span>🚚</span> সক্রিয় কনভয় ও ত্রাণের চালান ট্র্যাকার
+              <i data-lucide="truck" class="w-5 h-5 text-sky-600"></i>
+              <span>সক্রিয় কনভয় ও ত্রাণের চালান ট্র্যাকার</span>
             </h2>
             <p class="text-xs text-slate-500">কোন এনজিওর কতগুলো ত্রাণের গাড়ি বা বোট কোন এলাকার উদ্দেশ্যে রওনা হয়েছে এবং বিতরণ সম্পন্ন হয়েছে কি না তার লাইভ স্ট্যাটাস।</p>
           </div>
@@ -379,13 +399,15 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
-            <span>📋</span> সংযুক্ত মানবিক সংস্থা ও এনজিও ডিরেক্টরি
+            <i data-lucide="clipboard-list" class="w-5 h-5 text-sky-600"></i>
+            <span>সংযুক্ত মানবিক সংস্থা ও এনজিও ডিরেক্টরি</span>
           </h2>
           <p class="text-xs text-slate-500">INFOrNGO প্ল্যাটফর্মের সাথে ভেরিফাইড ও সক্রিয় ত্রাণ বিতরণকারী পার্টনার সংস্থাসমূহ।</p>
         </div>
 
-        <button onclick="window.switchTab('register')" class="py-2 px-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold shadow-xs transition">
-          + নতুন এনজিও যোগ করুন
+        <button onclick="window.switchTab('register')" class="py-2 px-3.5 bg-emerald-700 hover:bg-emerald-800 text-white rounded-lg text-xs font-bold shadow-xs transition flex items-center gap-1.5">
+          <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+          <span>নতুন এনজিও যোগ করুন</span>
         </button>
       </div>
 
@@ -404,7 +426,7 @@
       
       <div class="flex items-center gap-2.5 mb-2 pb-2 border-b border-slate-100">
         <div class="w-8 h-8 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center font-bold">
-          🤝
+          <i data-lucide="heart-handshake" class="w-4 h-4"></i>
         </div>
         <div>
           <h3 class="text-sm font-bold text-slate-900">ত্রাণ সামগ্রী বুকিং ফর্ম</h3>
@@ -454,7 +476,7 @@
         </div>
 
         <button type="submit" class="w-full py-2.5 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center justify-center gap-1.5">
-          <span>✓</span>
+          <i data-lucide="check" class="w-3.5 h-3.5"></i>
           <span>বুকিং কনফার্ম করুন (নিডবার আপডেট করুন)</span>
         </button>
       </form>
@@ -467,7 +489,7 @@
       <button onclick="window.closePassModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-700 text-xl font-bold">✕</button>
       
       <div class="text-center pb-3 border-b border-slate-200">
-        <div class="text-xs font-bold text-sky-700 uppercase tracking-widest">INFOrNGO ন্যাশনাল ডিজাস্টার গ্রিড</div>
+        <div class="text-[10px] font-bold text-sky-700 uppercase tracking-widest">INFOrNGO ন্যাশনাল ডিজাস্টার গ্রিড</div>
         <h3 class="text-lg font-black text-slate-900 mt-0.5">মানবিক ত্রাণ কনভয় ডিজিটাল ছাড়পত্র</h3>
         <p class="text-[11px] text-slate-500">হাইওয়ে চেকপোস্ট ও স্থানীয় প্রশাসনের জন্য ভেরিফাইড ডিসপ্যাচ স্লিপ</p>
       </div>
@@ -478,8 +500,9 @@
 
       <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
         <span class="text-[10.5px] text-slate-400">ডিজিটাল রেফারেন্স: INFOR-PASS-2026</span>
-        <button onclick="window.print()" class="py-2 px-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-lg text-xs transition">
-          🖨️ প্রিন্ট / সেভ করুন
+        <button onclick="window.print()" class="py-2 px-4 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-lg text-xs transition flex items-center gap-1.5">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span>প্রিন্ট / সেভ করুন</span>
         </button>
       </div>
     </div>
@@ -488,8 +511,9 @@
   <!-- Footer -->
   <footer class="bg-white border-t border-slate-200 py-6 px-4 text-center text-xs text-slate-500 mt-auto">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
-      <div>
-        © 2026 <strong>INFOrNGO</strong>. জাতীয় দুর্যোগকালীন সমন্বিত ত্রাণ ও নিড-ট্র্যাকিং প্ল্যাটফর্ম।
+      <div class="flex items-center gap-2 justify-center">
+        <img src="assets/logo.png" alt="Logo" class="w-5 h-5 rounded object-contain">
+        <span>© 2026 <strong>INFOrNGO</strong>. জাতীয় দুর্যোগকালীন সমন্বিত ত্রাণ ও নিড-ট্র্যাকিং প্ল্যাটফর্ম।</span>
       </div>
       <div class="text-slate-400">
         তৃণমূল তথ্যদাতা ও সাহায্যকারী সংস্থাগুলোর একটি উন্মুক্ত ডিজিটাল ব্রিজ
