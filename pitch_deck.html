@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>INFOrNGO Pitch Deck & Proposal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Hind Siliguri', sans-serif;
+      background-color: #0B0F19;
+      color: #F1F5F9;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .slide {
+      width: 297mm;
+      height: 210mm;
+      max-height: 210mm;
+      overflow: hidden;
+      page-break-after: always;
+      position: relative;
+      padding: 36px 46px;
+      display: flex;
+      flex-direction: column;
+      background: radial-gradient(circle at 15% 15%, #131E32 0%, #080C14 100%);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .slide-tag {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #38BDF8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 3px;
+    }
+
+    .slide-tag::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: #38BDF8;
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 10px #38BDF8;
+    }
+
+    .slide-title {
+      font-size: 23px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+    }
+
+    .slide-subtitle {
+      font-size: 12.5px;
+      color: #94A3B8;
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .header-logo {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #E2E8F0;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .header-logo span {
+      color: #38BDF8;
+    }
+
+    .slide-footer {
+      position: absolute;
+      bottom: 16px;
+      left: 46px;
+      right: 46px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: #64748B;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 8px;
+      z-index: 10;
+    }
+
+    .slide-content {
+      flex: 1;
+      position: relative;
+      z-index: 5;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 16px 18px;
+      position: relative;
+    }
+
+    .card-accent-blue {
+      border-left: 4px solid #38BDF8;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    }
+
+    .card-accent-red {
+      border-left: 4px solid #F43F5E;
+      background: linear-gradient(135deg, rgba(244, 63, 94, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    }
+
+    .card-accent-emerald {
+      border-left: 4px solid #10B981;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    }
+
+    .card-accent-amber {
+      border-left: 4px solid #F59E0B;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    }
+
+    .card-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-text {
+      font-size: 12px;
+      line-height: 1.55;
+      color: #CBD5E1;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 9.5px;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .badge-red { background: rgba(244, 63, 94, 0.2); color: #FDA4AF; border: 1px solid rgba(244, 63, 94, 0.4); }
+    .badge-amber { background: rgba(245, 158, 11, 0.2); color: #FCD34D; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-green { background: rgba(16, 185, 129, 0.2); color: #6EE7B7; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-blue { background: rgba(56, 189, 248, 0.2); color: #BAE6FD; border: 1px solid rgba(56, 189, 248, 0.4); }
+
+    .cover-slide {
+      justify-content: center;
+      align-items: flex-start;
+      padding: 50px 70px;
+      background: radial-gradient(circle at 80% 20%, rgba(56, 189, 248, 0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 20% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 60%),
+                  #070A11;
+    }
+
+    .cover-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 7px 16px;
+      border-radius: 30px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #38BDF8;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .cover-title {
+      font-size: 44px;
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      color: #FFFFFF;
+      margin-bottom: 14px;
+    }
+
+    .cover-title span {
+      background: linear-gradient(135deg, #38BDF8 0%, #34D399 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .cover-desc {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #94A3B8;
+      max-width: 820px;
+      margin-bottom: 32px;
+      font-weight: 400;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: 32px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      width: 100%;
+      max-width: 850px;
+    }
+
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .meta-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748B;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .meta-value {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #E2E8F0;
+    }
+
+    .diagram-container {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 360px;
+    }
+
+    .diagram-container img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+
+    .stat-number {
+      font-size: 30px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 4px;
+    }
+    .stat-number.blue { color: #38BDF8; }
+    .stat-number.emerald { color: #34D399; }
+    .stat-number.amber { color: #FBBF24; }
+    .stat-number.rose { color: #FB7185; }
+
+    .stat-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #94A3B8;
+      line-height: 1.4;
+    }
+
+    .comp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      margin-top: 6px;
+    }
+
+    .comp-table th {
+      text-align: left;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #E2E8F0;
+      font-weight: 700;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .comp-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #CBD5E1;
+      vertical-align: top;
+      line-height: 1.45;
+    }
+
+    .comp-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .highlight-box {
+      background: rgba(56, 189, 248, 0.08);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #BAE6FD;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: COVER -->
+  <div class="slide cover-slide">
+    <div class="cover-badge">
+      <span>●</span> Project Proposal & Pitch Deck
+    </div>
+    <h1 class="cover-title">
+      INFOrNGO <span>Mesh</span>
+    </h1>
+    <p style="font-size: 22px; font-weight: 700; color: #F8FAFC; margin-bottom: 12px; letter-spacing: -0.5px;">
+      দুর্যোগকালীন ত্রাণ ব্যবস্থাপনায় অসমতা দূরীকরণ ও রিয়েল-টাইম কোঅর্ডিনেশন প্ল্যাটফর্ম
+    </p>
+    <p class="cover-desc">
+      A decentralized humanitarian intelligence network connecting grassroots volunteer scouts with funded relief organizations to eliminate aid duplication, ensure 100% fair distribution, and provide dynamic crisis cool-down monitoring.
+    </p>
+
+    <div class="cover-meta">
+      <div class="meta-item">
+        <span class="meta-label">Initiative / Project</span>
+        <span class="meta-value">INFOrNGO Relief Ecosystem</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Target Beneficiaries</span>
+        <span class="meta-value">Flood Affected Communities & NGOs</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Primary Scope</span>
+        <span class="meta-value">Bangladesh Disaster Response (Chittagong, Feni, Khulna, Sylhet)</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Proposal Date</span>
+        <span class="meta-value">November 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: THE REAL-WORLD PROBLEM -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <div class="slide-tag">Problem Statement</div>
+        <div class="slide-title">ত্রাণের প্রাচুর্য বনাম তীব্র হাহাকার: বাস্তব সংকট</div>
+        <div class="slide-subtitle">দুর্যোগকালীন ত্রাণ বিতরণে প্রাতিষ্ঠানিক সমন্বয়ের চরম অভাব এবং এর মারাত্মক পরিণতি</div>
+      </div>
+      <div class="header-logo">INFOR<span>NGO</span></div>
+    </div>
+
+    <div class="slide-content">
+      <div class="grid-3" style="margin-bottom: 16px;">
+        <div class="card card-accent-red">
+          <div class="card-title">
+            <span class="badge badge-red">সমস্যা ১</span> এক জায়গায় বারবার ত্রাণ
+          </div>
+          <p class="card-text">
+            হাইওয়ে ও পরিচিত পয়েন্টগুলোতে (যেমন: চট্টগ্রাম বা খুলনার রয়্যাল মোড়) ব্র্যাক, আস-সুন্নাহ ও ৫-১০টি সংস্থা একসাথে ত্রাণ ডাম্প করে। ফলে প্রয়োজনের অতিরিক্ত ২০০০% ত্রাণ পৌঁছে নষ্ট হয়।
+          </p>
+        </div>
+
+        <div class="card card-accent-red">
+          <div class="card-title">
+            <span class="badge badge-red">সমস্যা ২</span> প্রত্যন্ত অঞ্চলে নীরব অনাহার
+          </div>
+          <p class="card-text">
+            ভেতরের সাব-ওয়ার্ড ও চরাঞ্চলে (যেমন: ময়লাপোতা বা দুর্গম গ্রাম) কোনো টিম পৌঁছায় না। সেখানে ৩-৪ দিন শুকনো খাবার ও এক ফোঁটা খাবার পানির জন্য শিশু ও বয়োবৃদ্ধদের তীব্র সংকট চলে।
+          </p>
+        </div>
+
+        <div class="card card-accent-red">
+          <div class="card-title">
+            <span class="badge badge-red">সমস্যা ৩</span> গ্রাউন্ড তথ্যের শূন্যতা
+          </div>
+          <p class="card-text">
+            বড় এনজিওদের ফান্ড ও লজিস্টিকস থাকে কিন্তু সঠিক রিয়েল-টাইম তথ্য থাকে না। অন্যদিকে লোকাল ছোট এনজিও ও যুব ক্লাবের ফিল্ডে উপস্থিতি থাকে, কিন্তু তাদের ত্রাণ দেওয়ার মতো বড় ফান্ড থাকে না।
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title" style="color: #FDA4AF;">❌ বর্তমান অপরিকল্পিত পদ্ধতির অকার্যকারিতা</div>
+          <ul style="font-size: 11.5px; color: #94A3B8; line-height: 1.7; padding-left: 18px;">
+            <li>কোনো কেন্দ্রীয় রিয়েল-টাইম রেজিস্ট্রি নেই; কে কোথায় কত প্যাকেট দিল কেউ জানে না।</li>
+            <li>চাহিদা নির্দিষ্ট নয়: সবার প্যাকেটেই চিড়া-মুড়ি, অথচ জরুরি স্যালাইন ও শিশুখাদ্য থাকে না।</li>
+            <li>ত্রাণ কনভয়ের রাস্তা জ্যাম ও একই স্পটে একাধিক বোটের ভিড়।</li>
+            <li>একবার ত্রাণ পেলে কতদিন চলবে (কভার্ড পিরিয়ড) তার কোনো ট্র্যাক নেই।</li>
+          </ul>
+        </div>
+
+        <div class="highlight-box">
+          <strong style="color: #38BDF8; display: block; margin-bottom: 6px; font-size: 13px;">💡 গবেষণালব্ধ চিত্র (Field Reality Check):</strong>
+          গত বন্যায় বিতরণকৃত শুকনো খাবারের প্রায় <strong>৩৫% প্রয়োজনাতিরিক্ত এলাকায় নষ্ট হয়েছে</strong>, অথচ <strong>৬০% এর বেশি দুর্গম পরিবার প্রথম ৭২ ঘণ্টায় ন্যূনতম সুপেয় পানি বা খাবার পায়নি</strong>। মূল কারণ ছিল এনজিওগুলোর মধ্যে রিয়েল-টাইম তথ্যের আদান-প্রদান না থাকা।
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>INFOrNGO • Disaster Relief Mesh Platform</span>
+      <span>Page 02 / 08</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: THE SOLUTION ECOSYSTEM -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <div class="slide-tag">Solution Architecture</div>
+        <div class="slide-title">INFOrNGO: সমন্বিত ক্রাইসিস ম্যানেজমেন্ট ইকোসিস্টেম</div>
+        <div class="slide-subtitle">স্থানীয় স্কাউটদের গ্রাউন্ড তথ্য এবং বড় এনজিওদের ফান্ডের কার্যকর মেলবন্ধন</div>
+      </div>
+      <div class="header-logo">INFOR<span>NGO</span></div>
+    </div>
+
+    <div class="slide-content">
+      <div class="grid-2" style="height: calc(100% - 10px);">
+        <div class="diagram-container">
+          <img src="workflow_diagram.png" alt="INFOrNGO Workflow">
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
+          <div class="card card-accent-blue">
+            <div class="card-title">
+              <span class="badge badge-blue">ধাপ ১</span> লোকাল স্কাউট দ্বারা দ্রুত চাহিদা নিরূপণ
+            </div>
+            <p class="card-text">
+              ফান্ডহীন ছোট এনজিও ও স্থানীয় ভলান্টিয়াররা প্রতিটি সাব-ওয়ার্ডের বাস্তব তথ্য (জনসংখ্যা, পানির স্তর, খাবার, পানি ও ওষুধের সুনির্দিষ্ট চাহিদা) প্ল্যাটফর্মে ইনপুট দেয়।
+            </p>
+          </div>
+
+          <div class="card card-accent-amber">
+            <div class="card-title">
+              <span class="badge badge-amber">ধাপ ২</span> লাইভ ড্যাশবোর্ড ও শেয়ার্ড ফুলফিলমেন্ট
+            </div>
+            <p class="card-text">
+              বড় এনজিওরা (ব্র্যাক, আস-সুন্নাহ ইত্যাদি) দেখে কে কত শতাংশ দিল। যেমন: ব্র্যাক দিল ৪০%, আস-সুন্নাহ দিল ৬০%—চাহিদা ১০০% পূর্ণ হলেই সিস্টেম স্বয়ংক্রিয়ভাবে স্ট্যাটাস আপডেট করে।
+            </p>
+          </div>
+
+          <div class="card card-accent-emerald">
+            <div class="card-title">
+              <span class="badge badge-green">ধাপ ৩</span> স্মার্ট লক, কুলডাউন ও রিডাইরেকশন
+            </div>
+            <p class="card-text">
+              যেখানে ২ দিনের খাবার নিশ্চিত হয়েছে, সেই এলাকা পরবর্তী ৪৮ ঘণ্টার জন্য <strong>"লক / গ্রিন"</strong> হয়। সিস্টেম বাকি এনজিওদের তৎক্ষণাৎ পাশের ঘাটতিপ্রবণ এলাকায় রিডাইরেক্ট করে।
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>INFOrNGO • Disaster Relief Mesh Platform</span>
+      <span>Page 03 / 08</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: CORE FEATURES & INNOVATION -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <div class="slide-tag">Platform Innovations</div>
+        <div class="slide-title">উদ্ভাবনী ফিচার ও ফাংশনাল মডিউল</div>
+        <div class="slide-subtitle">সঠিক সময়ে সঠিক মানুষের কাছে সুষম সহায়তা নিশ্চিত করার প্রযুক্তিগত স্তম্ভ</div>
+      </div>
+      <div class="header-logo">INFOR<span>NGO</span></div>
+    </div>
+
+    <div class="slide-content">
+      <div class="grid-3" style="gap: 14px;">
+        <div class="card card-accent-blue">
+          <div class="card-title">📍 লাইভ ক্রাইসিস হিটম্যাপ</div>
+          <p class="card-text">
+            জিও-ট্যাগযুক্ত ভিজ্যুয়াল ম্যাপ।<br>
+            🔴 <strong>Red (০-৩০% পূর্ণ):</strong> তীব্র সংকট, প্রথম প্রায়োরিটি।<br>
+            🟡 <strong>Yellow (৩০-৮০% পূর্ণ):</strong> আংশিক সরবরাহ।<br>
+            🟢 <strong>Green (১০০% পূর্ণ):</strong> নিরাপদ, আগামী ৪৮ ঘণ্টার ত্রাণ সুরক্ষিত।
+          </p>
+        </div>
+
+        <div class="card card-accent-emerald">
+          <div class="card-title">⏳ স্মার্ট কুলডাউন টাইমার</div>
+          <p class="card-text">
+            ডিস্ট্রিবিউশন হওয়ার পর ত্রাণের পরিমাণের উপর ভিত্তি করে টাইমার চলবে (যেমন: ৪৮ ঘণ্টা বা ৭২ ঘণ্টা)। টাইমার শেষ হওয়ার আগে সেখানে কোনো ডুপ্লিকেট কনভয় বা ত্রাণের গাড়ি ঢুকতে নিরুৎসাহিত করা হবে।
+          </p>
+        </div>
+
+        <div class="card card-accent-amber">
+          <div class="card-title">📦 সুনির্দিষ্ট চাহিদার ম্যাট্রিক্স</div>
+          <p class="card-text">
+            শুধু চাল নয়; স্পষ্ট ক্যাটাগরি:<br>
+            • পানীয় জলের গ্যালন<br>
+            • শিশুখাদ্য ও দুধ<br>
+            • খাবার স্যালাইন ও জরুরি ওষুধ<br>
+            • স্যানিটারি কিট ও শুকনো কাপড়
+          </p>
+        </div>
+
+        <div class="card card-accent-blue">
+          <div class="card-title">🤝 প্লেজ ও ডিসপ্যাচ ট্র্যাকার</div>
+          <p class="card-text">
+            কোন এনজিও কত ত্রাণ নিয়ে রওনা হয়েছে (In-Transit) তা আগেই প্ল্যাটফর্মে প্লেজ করবে। ফলে একই রোডে একসাথে একাধিক এনজিও না গিয়ে ট্রাফিক ও অপচয় এড়ানো যাবে।
+          </p>
+        </div>
+
+        <div class="card card-accent-red">
+          <div class="card-title">📶 লো-ব্যান্ডউইথ ও অফলাইন মোড</div>
+          <p class="card-text">
+            দুর্যোগপূর্ণ অঞ্চলে 2G নেটওয়ার্ক বা দুর্বল সিগন্যালেও কাজ করার মতো অতি-হালকা UI। নেটওয়ার্ক না থাকলে অফলাইনে ড্রাফট রেখে সিগন্যাল পেলেই অটো-সিঙ্ক ও SMS নোটিফিকেশন।
+          </p>
+        </div>
+
+        <div class="card card-accent-emerald">
+          <div class="card-title">🎖️ লোকাল এনজিও ক্রেডিট সিস্টেম</div>
+          <p class="card-text">
+            যেসব ছোট এনজিও তথ্য সংগ্রহ করে দেবে, তাদের প্রোফাইল ও কন্ট্রিবিউশন প্ল্যাটফর্মে দৃশ্যমান থাকবে। এতে তাদের প্রাতিষ্ঠানিক বিশ্বাসযোগ্যতা ও ফিউচার ফান্ডিং পাওয়ার সুযোগ তৈরি হবে।
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>INFOrNGO • Disaster Relief Mesh Platform</span>
+      <span>Page 04 / 08</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: SIMULATED FLOOD CASE STUDY -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <div class="slide-tag">Simulation & Case Study</div>
+        <div class="slide-title">খুলনা দুর্যোগ সিমুলেশন: নিরালা বনাম ময়লাপোতা</div>
+        <div class="slide-subtitle">বাস্তব পরিস্থিতিতে প্ল্যাটফর্মটি কীভাবে অপচয় রোধ ও ভারসাম্য রক্ষা করে</div>
+      </div>
+      <div class="header-logo">INFOR<span>NGO</span></div>
+    </div>
+
+    <div class="slide-content">
+      <div class="grid-2" style="margin-bottom: 14px;">
+        <div class="card card-accent-emerald">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div class="card-title" style="margin: 0;">খুলনা নিরালা (জরুরি জোন)</div>
+            <span class="badge badge-green">১০০% পূর্ণ • ৪৮ ঘণ্টা লক</span>
+          </div>
+          <p class="card-text">
+            <strong>মোট চাহিদা:</strong> ১,০০০ পরিবার (২,০০০ খাবারের প্যাকেট + ৫০০ গ্যালন পানি)<br>
+            • লোকাল এনজিও 'A' পরিস্থিতি মূল্যায়ন করে তাৎক্ষণিক পোস্ট করে।<br>
+            • <strong>ব্র্যাক:</strong> সকাল ১০টায় ৮০০ প্যাকেট ডেলিভারি দিল (৪০%)<br>
+            • <strong>আস-সুন্নাহ:</strong> দুপুর ১২টায় বাকি ১,২০০ প্যাকেট সরবরাহ করল (৬০%)<br>
+            <span style="color: #34D399; font-weight: 700;">ফলাফল:</span> এরিয়া লকড! পরবর্তী ২ দিনের জন্য নতুন কোনো খাবার ড্রপ বন্ধ।
+          </p>
+        </div>
+
+        <div class="card card-accent-red">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <div class="card-title" style="margin: 0;">খুলনা ময়লাপোতা ( অবহেলিত জোন)</div>
+            <span class="badge badge-red">জরুরি প্রয়োজন • মাত্র ১০% ত্রাণ</span>
+          </div>
+          <p class="card-text">
+            <strong>মোট চাহিদা:</strong> ৮০০ পরিবার (১,৬০০ খাবারের প্যাকেট + ৪০০ গ্যালন পানি)<br>
+            • ৩য় একটি এনজিও 'রেড ক্রিসেন্ট' নিরালায় যাওয়ার প্রস্তুতি নিচ্ছিল।<br>
+            • প্ল্যাটফর্ম অ্যালার্ট: <em>"নিরালা আগামী ২ দিন নিরাপদ! ময়লাপোতায় ৯০% সংকট।"</em><br>
+            • রেড ক্রিসেন্ট তাদের ট্রাক তাৎক্ষণিক ময়লাপোতায় ঘুরিয়ে দিল।<br>
+            <span style="color: #F87171; font-weight: 700;">ফলাফল:</span> দুর্গম ৮০০ পরিবার না খেয়ে থাকার হাত থেকে রক্ষা পেল।
+          </p>
+        </div>
+      </div>
+
+      <div class="card" style="background: rgba(255,255,255,0.02);">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>মেট্রিক</th>
+              <th>বর্তমান প্রথাগত পদ্ধতি (No Coordination)</th>
+              <th>INFOrNGO প্ল্যাটফর্ম ব্যবহারের পর</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ত্রাণের অপচয় ও স্পয়লেজ</strong></td>
+              <td>৪০% পর্যন্ত উদ্বৃত্ত এলাকায় নষ্ট হয়</td>
+              <td><strong>০% এর কাছাকাছি (শূন্য অপচয়)</strong></td>
+            </tr>
+            <tr>
+              <td><strong>প্রত্যন্ত অঞ্চলে কভারেজ</strong></td>
+              <td>মাত্র ২৫ - ৩০% দুর্গম অঞ্চলে ত্রাণ পৌঁছায়</td>
+              <td><strong>৯৫%+ সুষম ডিস্ট্রিবিউশন নিশ্চিত</strong></td>
+            </tr>
+            <tr>
+              <td><strong>রেসপন্স টাইম (সিদ্ধান্ত গ্রহণ)</strong></td>
+              <td>৬ থেকে ১২ ঘণ্টা বিভ্রান্তি ও ফোন কলের জট</td>
+              <td><strong>১০ মিনিটের মধ্যে লাইভ ডেটা অনুযায়ী ডিসপ্যাচ</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>INFOrNGO • Disaster Relief Mesh Platform</span>
+      <span>Page 05 / 08</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: PROJECTED IMPACT & METRICS -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <div class="slide-tag">Impact & Value Proposition</div>
+        <div class="slide-title">প্রত্যাশিত সামাজিক প্রভাব ও প্রধান সাফল্য সূচক</div>
+        <div class="slide-subtitle">মানবিক সহায়তায় জবাবদিহিতা, সমতা ও সর্বোচ্চ সম্পদের সদ্ব্যবহার</div>
+      </div>
+      <div class="header-logo">INFOR<span>NGO</span></div>
+    </div>
+
+    <div class="slide-content">
+      <div class="grid-4" style="margin-bottom: 18px;">
+        <div class="card" style="text-align: center; padding: 20px 12px;">
+          <div class="stat-number emerald">৮৫%+</div>
+          <div class="stat-label">ডুপ্লিকেট ত্রাণের অপচয় হ্রাস</div>
+        </div>
+
+        <div class="card" style="text-align: center; padding: 20px 12px;">
+          <div class="stat-number blue">৩.৫x</div>
+          <div class="stat-label">প্রত্যন্ত দুর্গম অঞ্চলে ত্রাণ প্রাপ্তি বৃদ্ধি</div>
+        </div>
+
+        <div class="card" style="text-align: center; padding: 20px 12px;">
+          <div class="stat-number amber">৬০%</div>
+          <div class="stat-label">দ্রুততম রেসপন্স ও লজিস্টিকস সময় সাশ্রয়</div>
+        </div>
+
+        <div class="card" style="text-align: center; padding: 20px 12px;">
+          <div class="stat-number rose">৫০০+</div>
+          <div class="stat-label">তৃণমূল এনজিও ও যুব ক্লাবের কার্যকর অন্তর্ভুক্তি</div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card card-accent-blue">
+          <div class="card-title">🏛️ জাতীয় দুর্যোগ ব্যবস্থাপনা ইন্টিগ্রেশন</div>
+          <p class="card-text">
+            দুর্যোগ ব্যবস্থাপনা ও ত্রাণ মন্ত্রণালয় (MoDMR) এবং জেলা প্রশাসনের কাছে সেন্ট্রাল রিপোর্ট স্বয়ংক্রিয়ভাবে প্রদান করা যাবে, যা সরকারের সামরিক ও বেসামরিক উদ্ধারকাজে সিদ্ধান্ত গ্রহণে সহায়তা করবে।
+          </p>
+        </div>
+
+        <div class="card card-accent-emerald">
+          <div class="card-title">💰 আন্তর্জাতিক ডোনারদের জবাবদিহিতা</div>
+          <p class="card-text">
+            বিদেশি ও স্থানীয় ডোনাররা প্রতিটি টাকার সুষম ব্যবহার লাইভ ট্র্যাকিংয়ের মাধ্যমে দেখতে পারবেন। কোন এলাকায় কোন সংস্থা কতটুকু ডেলিভারি দিল তার অডিটযোগ্য ডিজিটাল রেকর্ড থাকবে।
+          </p>
+        </div>
+
+        <div class="card card-accent-amber">
+          <div class="card-title">🌱 স্থানীয় নেতৃত্বের ক্ষমতায়ন</div>
+          <p class="card-text">
+            তৃণমূল পর্যায়ের ছোট ছোট এনজিওরা কেবল ফান্ড না থাকার কারণে অবহেলিত থাকবে না। তারা এই প্ল্যাটফর্মের তথ্যদাতা 'ফার্স্ট রেসপন্ডার' হিসেবে জাতীয় সম্মান ও স্বীকৃতি পাবে।
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>INFOrNGO • Disaster Relief Mesh Platform</span>
+      <span>Page 06 / 08</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: ROADMAP & IMPLEMENTATION -->
+  <div class="slide">
+    <div class="slide-header">
+      <div>
+        <div class="slide-tag">Execution Roadmap</div>
+        <div class="slide-title">বাস্তবায়ন কর্মপরিকল্পনা ও পর্যায়ক্রমিক মাইলফলক</div>
+        <div class="slide-subtitle">একটি কার্যকরী প্রোটোটাইপ থেকে জাতীয় পর্যায়ের মানবিক কোঅর্ডিনেশন নেটওয়ার্কে উত্তরণ</div>
+      </div>
+      <div class="header-logo">INFOR<span>NGO</span></div>
+    </div>
+
+    <div class="slide-content">
+      <div class="grid-4" style="height: calc(100% - 15px);">
+        <div class="card card-accent-blue" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-blue" style="margin-bottom: 8px;">ফেজ ১ • মাস ১-২</span>
+            <div class="card-title">কোর ইঞ্জিন ও MVP ডেভেলপমেন্ট</div>
+            <p class="card-text">
+              • Next.js + Tailwind আধুনিক ইউজার ইন্টারফেস<br>
+              • জিও-স্পেশাল লাইভ ক্রাইসিস ম্যাপ<br>
+              • ডিমান্ড বনাম ফুলফিলমেন্ট ট্র্যাকার<br>
+              • কুলডাউন টাইমার ইঞ্জিন লজিক
+            </p>
+          </div>
+          <div style="font-size: 10.5px; color: #38BDF8; font-weight: 700;">মাইলফলক: কার্যকরী ওয়েব প্রোটোটাইপ</div>
+        </div>
+
+        <div class="card card-accent-amber" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-amber" style="margin-bottom: 8px;">ফেজ ২ • মাস ৩-৪</span>
+            <div class="card-title">এনজিও অনবোর্ডিং ও ফিল্ড পাইলট</div>
+            <p class="card-text">
+              • ১০টি বড় এনজিও ও ৩০টি লোকাল ক্লাবের সাথে পার্টনারশিপ<br>
+              • লো-ব্যান্ডউইথ অফলাইন ডেটা সিঙ্ক ও এসএমএস গেটওয়ে<br>
+              • চট্টগ্রাম বা খুলনায় ফিল্ড ড্রিল ও সিমুলেশন টেস্ট
+            </p>
+          </div>
+          <div style="font-size: 10.5px; color: #F59E0B; font-weight: 700;">মাইলফলক: বাস্তব ফিল্ড ট্রায়াল ভ্যালিডেশন</div>
+        </div>
+
+        <div class="card card-accent-emerald" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-green" style="margin-bottom: 8px;">ফেজ ৩ • মাস ৫-৬</span>
+            <div class="card-title">লাইভ ডেপ্লয়মেন্ট ও স্কেলিং</div>
+            <p class="card-text">
+              • জাতীয় দুর্যোগে পূর্ণাঙ্গ উন্মুক্ত প্ল্যাটফর্ম<br>
+              • ক্লাউড হাই-অ্যাভেইলেবিলিটি ইনফ্রাস্ট্রাকচার<br>
+              • মোবাইল অ্যাপ (Android/PWA) রিলিজ<br>
+              • অটোমেটিক ভেরিফিকেশন ও এআই অ্যালার্ট
+            </p>
+          </div>
+          <div style="font-size: 10.5px; color: #10B981; font-weight: 700;">মাইলফলক: দেশব্যাপী সক্রিয় ডেপ্লয়মেন্ট</div>
+        </div>
+
+        <div class="card card-accent-red" style="display: flex; flex-direction: column; justify-content: space-between;">
+          <div>
+            <span class="badge badge-red" style="margin-bottom: 8px;">ফেজ ৪ • মাস ৭+</span>
+            <div class="card-title">পলিসি ও পার্টনারশিপ</div>
+            <p class="card-text">
+              • সরকারি দুর্যোগ পোর্টালের সাথে API কানেক্টিভিটি<br>
+              • ইউএন-ওসিএইচএ (UN-OCHA) ও ডোনার ড্যাশবোর্ড<br>
+              • টেকসই মেইনটেন্যান্স ফান্ডিং
+            </p>
+          </div>
+          <div style="font-size: 10.5px; color: #F43F5E; font-weight: 700;">মাইলফলক: জাতীয় স্ট্যান্ডঅ্যালোন সিস্টেম</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>INFOrNGO • Disaster Relief Mesh Platform</span>
+      <span>Page 07 / 08</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: CALL TO ACTION / CONCLUSION -->
+  <div class="slide cover-slide" style="justify-content: space-between; padding: 46px 60px;">
+    <div>
+      <div class="cover-badge">
+        <span>●</span> Partnership & Call to Action
+      </div>
+      <h2 style="font-size: 34px; font-weight: 900; color: #FFFFFF; line-height: 1.25; margin-bottom: 12px;">
+        একটি মানুষও না খেয়ে থাকবে না—<br>
+        <span style="background: linear-gradient(135deg, #38BDF8 0%, #34D399 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          প্রযুক্তির শক্তি আর মানবতার মেলবন্ধনে
+        </span>
+      </h2>
+      <p style="font-size: 15px; color: #94A3B8; max-width: 820px; line-height: 1.6; margin-bottom: 22px;">
+        INFOrNGO কেবল একটি সফটওয়্যার নয়; এটি দুর্যোগে প্রতিটি ভুক্তভোগী মানুষের অধিকার রক্ষা এবং মানবিক সহায়তার প্রতিটি দানার অপচয় রোধের এক অনন্য ডিজিটাল বিপ্লব।
+      </p>
+
+      <div class="grid-3" style="max-width: 900px; margin-bottom: 18px;">
+        <div class="card card-accent-blue" style="padding: 12px 16px;">
+          <div style="font-weight: 800; color: #FFFFFF; font-size: 13.5px; margin-bottom: 4px;">এনজিও কনসোর্টিয়াম</div>
+          <div style="font-size: 11.5px; color: #94A3B8;">একত্রিত হয়ে প্ল্যাটফর্মে ত্রাণ বরাদ্দ সমন্বয় করুন</div>
+        </div>
+        <div class="card card-accent-emerald" style="padding: 12px 16px;">
+          <div style="font-weight: 800; color: #FFFFFF; font-size: 13.5px; margin-bottom: 4px;">ডোনার ও স্পন্সর</div>
+          <div style="font-size: 11.5px; color: #94A3B8;">টেক প্ল্যাটফর্ম স্কেলিং ও সার্ভার কস্টে সহায়তা করুন</div>
+        </div>
+        <div class="card card-accent-amber" style="padding: 12px 16px;">
+          <div style="font-weight: 800; color: #FFFFFF; font-size: 13.5px; margin-bottom: 4px;">তৃণমূল স্কাউট ও যুবসমাজ</div>
+          <div style="font-size: 11.5px; color: #94A3B8;">গ্রাউন্ড তথ্যের ভলান্টিয়ার নেটওয়ার্কে যোগ দিন</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 16px;">
+      <div>
+        <div style="font-size: 10px; text-transform: uppercase; color: #64748B; font-weight: 600;">Contact & Collaboration</div>
+        <div style="font-size: 14.5px; font-weight: 700; color: #E2E8F0;">INFOrNGO Initiative • Tahmidur Rahman</div>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-size: 10px; text-transform: uppercase; color: #64748B; font-weight: 600;">Status</div>
+        <div style="font-size: 13.5px; font-weight: 700; color: #34D399;">Ready for Pilot & Architecture Phase</div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
