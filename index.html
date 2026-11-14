@@ -65,11 +65,11 @@
             <span data-i18n="nav_hotline">হটলাইন</span>
           </button>
 
-          <!-- 3-DOTS MENU BUTTON (⋮) -->
+          <!-- 3-DOTS MENU BUTTON (⋮) Right in top-right corner -->
           <button onclick="window.toggleNavMenu()" id="menu-dots-btn" 
-                  class="w-10 h-10 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 flex items-center justify-center transition shadow-xs focus:ring-2 focus:ring-sky-500" 
-                  aria-label="সকল মেনু ও ফিচার">
-            <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                  class="flex items-center justify-center w-11 h-11 rounded-xl bg-slate-900 hover:bg-black text-white transition shadow-sm active:scale-95 border border-slate-700 text-2xl font-black shrink-0 cursor-pointer" 
+                  aria-label="Menu" title="থ্রি-ডট মেনু বাটন">
+            <span class="select-none leading-none -mt-1 font-mono">⋮</span>
           </button>
         </div>
       </div>
@@ -112,30 +112,35 @@
 
     <!-- Drawer Navigation Buttons List -->
     <div class="p-4 overflow-y-auto flex-1 flex flex-col gap-2">
-      <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mb-1" data-i18n="drawer_core_heading">কোর ড্যাশবোর্ড বাটন</div>
+      <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-500 mb-1 flex items-center justify-between">
+        <span data-i18n="drawer_core_heading">কোর ড্যাশবোর্ড বাটনসমূহ</span>
+        <span class="text-[10px] text-sky-600 font-bold">প্রাথমিক সেবা</span>
+      </div>
 
-      <!-- Button 1: Relief Booking Dashboard -->
+      <!-- Button 1: Relief Booking Dashboard (Major Button) -->
       <button onclick="window.switchTab('booking'); window.toggleNavMenu(false);" 
-              class="w-full p-3 rounded-xl border border-slate-200 hover:border-sky-500 hover:bg-sky-50/50 bg-white transition flex items-center gap-3 text-left shadow-2xs group">
-        <div class="w-9 h-9 rounded-lg bg-sky-100 text-sky-700 flex items-center justify-center shrink-0 group-hover:bg-sky-600 group-hover:text-white transition">
-          <i data-lucide="heart-handshake" class="w-4 h-4"></i>
+              class="w-full p-3.5 rounded-2xl border-2 border-sky-500 bg-sky-50/80 hover:bg-sky-100 transition flex items-center gap-3 text-left shadow-xs group cursor-pointer">
+        <div class="w-10 h-10 rounded-xl bg-sky-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+          <i data-lucide="heart-handshake" class="w-5 h-5"></i>
         </div>
-        <div>
-          <div class="text-xs font-bold text-slate-900 group-hover:text-sky-700" data-i18n="nav_booking">ত্রাণ বুকিং ড্যাশবোর্ড</div>
-          <div class="text-[11px] text-slate-500" data-i18n="nav_booking_desc">উপদ্রুত এলাকার নিডবার ও ত্রাণ সরবরাহ</div>
+        <div class="flex-1">
+          <div class="text-xs font-black text-sky-950 uppercase tracking-tight" data-i18n="nav_booking">ত্রাণ বুকিং ড্যাশবোর্ড</div>
+          <div class="text-[11px] text-sky-700 font-medium" data-i18n="nav_booking_desc">উপদ্রুত এলাকার নিডবার ও ত্রাণ সরবরাহ</div>
         </div>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-sky-500"></i>
       </button>
 
-      <!-- Button 2: Post Need Form -->
+      <!-- Button 2: Post Need Form (Major Button) -->
       <button onclick="window.switchTab('post'); window.toggleNavMenu(false);" 
-              class="w-full p-3 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/50 bg-white transition flex items-center gap-3 text-left shadow-2xs group">
-        <div class="w-9 h-9 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 group-hover:text-white transition">
-          <i data-lucide="megaphone" class="w-4 h-4"></i>
+              class="w-full p-3.5 rounded-2xl border-2 border-emerald-500 bg-emerald-50/80 hover:bg-emerald-100 transition flex items-center gap-3 text-left shadow-xs group cursor-pointer">
+        <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+          <i data-lucide="megaphone" class="w-5 h-5"></i>
         </div>
-        <div>
-          <div class="text-xs font-bold text-slate-900 group-hover:text-emerald-700" data-i18n="nav_post">চাহিদা পোস্ট করুন (গ্রাউন্ড স্কাউট)</div>
-          <div class="text-[11px] text-slate-500" data-i18n="nav_post_desc">তৃণমূল থেকে সরাসরি চাহিদা আপলোড</div>
+        <div class="flex-1">
+          <div class="text-xs font-black text-emerald-950 uppercase tracking-tight" data-i18n="nav_post">চাহিদা পোস্ট করুন (গ্রাউন্ড স্কাউট)</div>
+          <div class="text-[11px] text-emerald-700 font-medium" data-i18n="nav_post_desc">তৃণমূল থেকে সরাসরি চাহিদা আপলোড</div>
         </div>
+        <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-500"></i>
       </button>
 
       <div class="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 mt-3 mb-1" data-i18n="drawer_adv_heading">অ্যাডভান্স ইন্টেলিজেন্স ও ট্র্যাকার</div>
@@ -372,17 +377,30 @@
     <!-- ======================================================== -->
     <!-- VIEW 2: চাহিদা পোস্ট করুন (গ্রাউন্ড এনজিও / স্কাউট)          -->
     <!-- ======================================================== -->
-    <div id="view-post" class="view-panel hidden flex flex-col gap-6">
+    <div id="view-post" class="view-panel hidden flex flex-col gap-5">
       
-      <!-- Back to Booking bar -->
-      <div class="flex items-center justify-between">
-        <button onclick="window.switchTab('booking')" class="text-xs font-bold text-sky-600 hover:text-sky-800 flex items-center gap-1.5">
-          <i data-lucide="arrow-left" class="w-4 h-4"></i>
-          <span data-i18n="btn_back_booking">ত্রাণ বুকিং ড্যাশবোর্ডে ফিরে যান</span>
+      <!-- TOP ACTION BAR: Core Segmented Buttons -->
+      <div class="bg-white p-2 rounded-2xl border border-slate-200 shadow-xs flex flex-wrap sm:flex-nowrap items-center gap-2">
+        <!-- Button 1: Relief Booking Dashboard -->
+        <button onclick="window.switchTab('booking')" 
+                class="flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border transition bg-white text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-xs">
+          <i data-lucide="heart-handshake" class="w-4 h-4 text-sky-600"></i>
+          <span data-i18n="nav_booking">ত্রাণ বুকিং ড্যাশবোর্ড</span>
         </button>
-        <span class="text-xs px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold" data-i18n="intake_badge">
-          তৃণমূল তথ্য সংগ্রহ পোর্টাল
-        </span>
+
+        <!-- Button 2: Post Need Form (Active) -->
+        <button onclick="window.switchTab('post')" 
+                class="flex-1 py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border transition bg-emerald-600 text-white border-emerald-600 shadow-xs">
+          <i data-lucide="megaphone" class="w-4 h-4"></i>
+          <span data-i18n="nav_post_short">চাহিদা পোস্ট করুন</span>
+        </button>
+
+        <!-- Button 3: All Advanced Features (Three-Dots Trigger) -->
+        <button onclick="window.toggleNavMenu(true)" 
+                class="py-3 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 border transition bg-white text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300 shadow-xs shrink-0">
+          <i data-lucide="layers" class="w-4 h-4 text-purple-600"></i>
+          <span data-i18n="nav_all_tools">সকল টুলস (⋮)</span>
+        </button>
       </div>
 
       <div class="bg-white p-6 sm:p-8 rounded-2xl border border-slate-200 shadow-xs">
