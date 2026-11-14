@@ -1,6 +1,164 @@
-// INFOrNGO Master Application - Multi-View Humanitarian Engine
+// INFOrNGO Master Application - Advanced Humanitarian Engine & Bilingual System
 (function () {
   'use strict';
+
+  // --- Bilingual Translation Dictionary ---
+  const translations = {
+    bn: {
+      badge_grid: 'লাইভ গ্রিড',
+      tagline: 'দুর্যোগে প্রতিটি এলাকায় সুষম ত্রাণ বণ্টন ও সমন্বিত নিড-ট্র্যাকার',
+      critical_zones_badge: 'টি চরম সংকট',
+      secured_zones_badge: 'টি সম্পন্ন জোন',
+      nav_booking: 'ত্রাণ বুকিং ড্যাশবোর্ড',
+      nav_post: 'চাহিদা পোস্ট (গ্রাউন্ড এনজিও)',
+      nav_gis: 'প্লাবন ম্যাপ ও এআই প্রেডিক্টর',
+      nav_dispatch: 'কনভয় ট্র্যাকার ও ছাড়পত্র',
+      nav_register: 'এনজিও রেজিস্ট্রেশন',
+      nav_directory: 'পার্টনার এনজিও ডিরেক্টরি',
+      stat_total_zones: 'মোট সংকট এলাকা',
+      stat_critical_zones: 'জরুরি অগ্রাধিকার (০-৩০%)',
+      stat_completed_zones: '১০০% বুকিং সম্পন্ন (সুরক্ষিত)',
+      stat_food_progress: 'খাদ্য প্যাকেট অগ্রগতি',
+      heading_needs: 'মাঠপর্যায়ের চাহিদা তালিকা ও নিডবার (Need Progression Bars)',
+      desc_needs: 'ডোনার এনজিও হিসেবে খালি অংশগুলোতে ক্লিক করে আপনার ত্রাণ সামগ্রী বুক করুন।',
+      btn_export: 'রিপোর্ট এক্সপোর্ট',
+      filter_all: 'সকল এলাকা',
+      filter_critical: 'চরম সংকট (০-৩০%)',
+      filter_partial: 'আংশিক বুকড (৩০-৯৯%)',
+      filter_completed: '১০০% বুকিং সম্পন্ন (সুরক্ষিত)',
+      post_heading: 'মাঠপর্যায়ের নতুন দুর্যোগ ও চাহিদা পোস্ট ফরম',
+      post_subheading: 'গ্রাউন্ড ভলান্টিয়ার বা লোকাল এনজিও হিসেবে আপনার এলাকার জরুরি চাহিদা পোস্ট করুন। পোস্ট করলেই বুকিং ড্যাশবোর্ডে ০% নিডবার তৈরি হবে।',
+      sms_banner_title: 'লো-ব্যান্ডউইথ এসএমএস সিমুলেশন গেটওয়ে:',
+      sms_banner_text: 'ইন্টারনেট না থাকলে মোবাইল থেকে নির্দিষ্ট কোড লিখে ১৬২৬৩ নম্বরে এসএমএস পাঠিয়েও স্বয়ংক্রিয় নিডবার তৈরি করা যায়।',
+      sms_banner_btn: 'একটি নমুনা এসএমএস টেস্ট করুন ➔',
+      form_area_name: 'এলাকা / ওয়ার্ড / গ্রামের সুনির্দিষ্ট নাম:',
+      form_district: 'জেলা:',
+      form_upazila: 'উপজেলা / থানা:',
+      form_families: 'ক্ষতিগ্রস্ত পরিবারের সংখ্যা:',
+      form_water_depth: 'পানির গভীরতা ও অবস্থা:',
+      form_need_breakdown: 'কী কী জিনিস লাগবে এবং কত পরিমাণে লাগবে? (চাহিদা নিরূপণ):',
+      item_food: 'শুকনো খাবার (প্যাকেট):',
+      item_water: 'খাবার পানি (গ্যালন):',
+      item_medical: 'ওষুধ ও স্যালাইন (কিট):',
+      item_baby: 'শিশুখাদ্য ও দুধ (প্যাক):',
+      form_scout_name: 'আপনার সংগঠন / যুব ক্লাবের নাম:',
+      btn_submit_need: 'চাহিদা পোস্ট ও নিডবার প্রকাশ করুন',
+      ai_radar_title: 'এআই প্লাবন ও ভবিষ্যৎ ঘাটতি প্রেডিক্টর (AI Flood & Need Radar)',
+      ai_radar_sub: 'নদীর পানি প্রবাহ, বৃষ্টিপাতের রেকর্ড এবং জনসংখ্যার ঘনত্বের উপর ভিত্তি করে তৈরি লাইভ রিস্ক মডেল।',
+      gis_map_title: 'বাংলাদেশ মানবিক ত্রাণ সমন্বয় প্লাবন মানচিত্র',
+      map_critical: 'চরম সংকট জোন (০-৩০%)',
+      map_partial: 'আংশিক সরবরাহ জোন',
+      map_completed: '১০০% বুকড ও সুরক্ষিত',
+      dispatch_heading: 'সক্রিয় কনভয় ও ত্রাণের চালান ট্র্যাকার',
+      dispatch_subheading: 'কোন এনজিওর কতগুলো ত্রাণের গাড়ি বা বোট কোন এলাকার উদ্দেশ্যে রওনা হয়েছে এবং বিতরণ সম্পন্ন হয়েছে কি না তার লাইভ স্ট্যাটাস।',
+      filter_by_ngo: 'ফিল্টার:',
+      th_ngo: 'এনজিওর নাম',
+      th_destination: 'গন্তব্য এলাকা',
+      th_cargo: 'ত্রাণের ধরন ও পরিমাণ',
+      th_vehicle: 'গাড়ির বিবরণ',
+      th_status: 'স্ট্যাটাস',
+      th_action: 'ছাড়পত্র',
+      reg_heading: 'নতুন ডোনার এনজিও রেজিস্ট্রেশন ফরম',
+      reg_subheading: 'আপনি কি কোনো এনজিও, ফাউন্ডেশন বা দাতব্য দলের হয়ে ত্রাণ বিতরণ করতে চান? রেজিস্ট্রেশন করলেই আপনার সংস্থা বুকিং লিস্টে যুক্ত হবে।',
+      reg_org_name: 'সংস্থা / এনজিওর পূর্ণ নাম:',
+      reg_short_name: 'সংক্ষিপ্ত নাম (Short Name):',
+      reg_gov_no: 'নিবন্ধন / এনজিও ব্যুরো নম্বর (যদি থাকে):',
+      reg_contact: 'দায়িত্বশীল প্রতিনিধির নাম ও ফোন:',
+      reg_hq: 'প্রধান কার্যালয়ের জেলা:',
+      reg_focus: 'কাজের প্রধান ক্ষেত্র (ফোকাস):',
+      reg_logistics: 'লজিস্টিকস ও যানবাহন সক্ষমতা:',
+      btn_reg_submit: 'এনজিও রেজিস্ট্রেশন সম্পন্ন করুন',
+      dir_heading: 'সংযুক্ত মানবিক সংস্থা ও এনজিও ডিরেক্টরি',
+      dir_subheading: 'INFOrNGO প্ল্যাটফর্মের সাথে ভেরিফাইড ও সক্রিয় ত্রাণ বিতরণকারী পার্টনার সংস্থাসমূহ।',
+      btn_add_ngo: 'নতুন এনজিও যোগ করুন',
+      modal_booking_title: 'ত্রাণ সামগ্রী বুকিং ফর্ম',
+      modal_select_ngo: 'আপনার এনজিও / সংস্থার নাম:',
+      modal_custom_org: 'সংস্থার নাম লিখুন:',
+      modal_select_item: 'কোন আইটেমটি বুক করতে চান?',
+      modal_qty: 'কত পরিমাণ বুক করবেন? (সংখ্যা লিখুন):',
+      modal_convoy_note: 'কনভয় / গাড়ির বিবরণ ও ড্রাইভার ফোন (ঐচ্ছিক):',
+      modal_btn_confirm: 'বুকিং কনফার্ম করুন (নিডবার আপডেট করুন)',
+      footer_title: 'জাতীয় দুর্যোগকালীন সমন্বিত ত্রাণ ও নিড-ট্র্যাকিং প্ল্যাটফর্ম।',
+      footer_sub: 'তৃণমূল তথ্যদাতা ও সাহায্যকারী সংস্থাগুলোর একটি উন্মুক্ত ডিজিটাল ব্রিজ'
+    },
+    en: {
+      badge_grid: 'LIVE GRID',
+      tagline: 'Equitable Relief Distribution & Unified Need Progression Mesh',
+      critical_zones_badge: 'Critical Zones',
+      secured_zones_badge: 'Secured Zones',
+      nav_booking: 'Relief Booking Dashboard',
+      nav_post: 'Post Need (Field NGOs)',
+      nav_gis: 'Flood Map & AI Radar',
+      nav_dispatch: 'Fleet Tracker & Transit Pass',
+      nav_register: 'NGO Registration',
+      nav_directory: 'Partner NGO Directory',
+      stat_total_zones: 'Total Crisis Zones',
+      stat_critical_zones: 'Critical Priority (0-30%)',
+      stat_completed_zones: '100% Booked (Secured)',
+      stat_food_progress: 'Food Aid Progress',
+      heading_needs: 'Field Need Directory & Progression Bars',
+      desc_needs: 'As a donor NGO, select unfulfilled segments to pledge and book aid.',
+      btn_export: 'Export Report',
+      filter_all: 'All Zones',
+      filter_critical: 'Critical (0-30%)',
+      filter_partial: 'Partial (30-99%)',
+      filter_completed: '100% Booked (Secured)',
+      post_heading: 'Field Crisis Intake & Need Assessment Form',
+      post_subheading: 'Local scouts & grassroots teams submit verified ground demands. Progression bars generate instantly.',
+      sms_banner_title: 'Low-Bandwidth SMS Ingestion Gateway:',
+      sms_banner_text: 'When cell towers collapse, volunteers can transmit structured SMS to 16263 for automated need tracking.',
+      sms_banner_btn: 'Test Sample SMS Ingestion ➔',
+      form_area_name: 'Specific Area / Ward / Village Name:',
+      form_district: 'District:',
+      form_upazila: 'Upazila / Sub-district:',
+      form_families: 'Affected Family Count:',
+      form_water_depth: 'Water Depth & Situation:',
+      form_need_breakdown: 'Itemized Need Assessment (Quantities Required):',
+      item_food: 'Dry Food Packets:',
+      item_water: 'Drinking Water (Gallons):',
+      item_medical: 'Saline & Medicine (Kits):',
+      item_baby: 'Baby Food & Milk (Packs):',
+      form_scout_name: 'Your Organization / Youth Club Name:',
+      btn_submit_need: 'Broadcast Crisis & Generate Needbars',
+      ai_radar_title: 'AI Flood & Demand Forecast Radar',
+      ai_radar_sub: 'Real-time hydrological river telemetry, precipitation logs, and demographic density predictive risk index.',
+      gis_map_title: 'Bangladesh Humanitarian Flood Inundation Map',
+      map_critical: 'Critical Deficit (0-30%)',
+      map_partial: 'Partial Supply Zone',
+      map_completed: '100% Booked & Secured',
+      dispatch_heading: 'Active Relief Fleet & Dispatch Ledger',
+      dispatch_subheading: 'Live tracking of relief trucks and rescue boats en route with distribution verification states.',
+      filter_by_ngo: 'Filter by:',
+      th_ngo: 'NGO Organization',
+      th_destination: 'Destination Zone',
+      th_cargo: 'Relief Item & Quantity',
+      th_vehicle: 'Vehicle Details',
+      th_status: 'Transit Status',
+      th_action: 'Transit Pass',
+      reg_heading: 'New Donor NGO Registration Portal',
+      reg_subheading: 'Join the national relief grid as an accredited humanitarian donor or response team.',
+      reg_org_name: 'Full Organization / NGO Name:',
+      reg_short_name: 'Short Name / Acronym:',
+      reg_gov_no: 'NGO Affairs Bureau / Govt Reg No:',
+      reg_contact: 'Lead Officer Name & Phone:',
+      reg_hq: 'Headquarters District:',
+      reg_focus: 'Primary Focus Areas:',
+      reg_logistics: 'Logistics Fleet & Vehicle Assets:',
+      btn_reg_submit: 'Complete NGO Registration',
+      dir_heading: 'Verified Humanitarian NGO Directory',
+      dir_subheading: 'Accredited relief and disaster response partners connected to the INFOrNGO network.',
+      btn_add_ngo: 'Add New NGO',
+      modal_booking_title: 'Relief Commitment & Booking Form',
+      modal_select_ngo: 'Select Your NGO / Agency:',
+      modal_custom_org: 'Enter Organization Name:',
+      modal_select_item: 'Which Item Will You Book?',
+      modal_qty: 'Quantity to Book (Numeric):',
+      modal_convoy_note: 'Vehicle No. & Driver Contact (Optional):',
+      modal_btn_confirm: 'Confirm Commitment (Update Needbars)',
+      footer_title: 'National Disaster Relief Coordination & Need Progression Network.',
+      footer_sub: 'An open digital bridge connecting grassroots field scouts with accredited humanitarian organizations.'
+    }
+  };
 
   // Helper to refresh Lucide icons
   function refreshIcons() {
@@ -11,26 +169,64 @@
 
   // --- App State ---
   const state = {
-    zones: JSON.parse(localStorage.getItem('inforngo_v3_zones')) || window.INFODATA.zones,
-    ngos: JSON.parse(localStorage.getItem('inforngo_v3_ngos')) || window.INFODATA.ngos,
-    dispatches: JSON.parse(localStorage.getItem('inforngo_v3_dispatches')) || [
-      { id: 'd-1', ngoName: 'ব্র্যাক হিউম্যানিটারিয়ান এইড (BRAC)', zoneName: 'খুলনা নিরালা', items: '৮০০ খাবার প্যাকেট + ৩০০ গ্যালন পানি', vehicle: 'ট্রাক-খুলনা-১২', status: 'Delivered', time: 'আজ দুপুর ১২:০০' },
-      { id: 'd-2', ngoName: 'আস-সুন্নাহ ফাউন্ডেশন (As-Sunnah)', zoneName: 'খুলনা নিরালা', items: '১২০০ খাবার প্যাকেট + ৫০০ গ্যালন পানি', vehicle: 'ট্রাক-ঢাকা-৪৪', status: 'Delivered', time: 'আজ দুপুর ০১:১৫' },
-      { id: 'd-3', ngoName: 'মাস্তুল ফাউন্ডেশন (Mastul)', zoneName: 'খুলনা ময়লাপোতা', items: '২৫০ খাবার প্যাকেট + ১০০ গ্যালন পানি', vehicle: 'বোট-০২ (মাস্তুল)', status: 'In Transit', time: 'আজ দুপুর ০২:৩০' },
-      { id: 'd-4', ngoName: 'বিদ্যানন্দ ফাউন্ডেশন (Bidyanondo)', zoneName: 'নোয়াখালী বেগমগঞ্জ', items: '৫০০ খাবার প্যাকেট + ৪০০ গ্যালন পানি', vehicle: 'ট্রাক-নোয়া-০৫', status: 'Delivered', time: 'আজ সকাল ১০:৪৫' },
-      { id: 'd-5', ngoName: 'আল-খিদমত ডিজাস্টার সেল', zoneName: 'নোয়াখালী বেগমগঞ্জ', items: '২০০ খাবার প্যাকেট + ৫০ শিশুখাদ্য', vehicle: 'পিকআপ-০১', status: 'In Transit', time: 'আজ দুপুর ০১:৪৫' },
-      { id: 'd-6', ngoName: 'আস-সুন্নাহ ফাউন্ডেশন (As-Sunnah)', zoneName: 'চট্টগ্রাম ফটিকছড়ি', items: '৬০০ খাবার প্যাকেট + ৩৫০ গ্যালন পানি', vehicle: 'ট্রাক-চট্টগ্রাম-০৮', status: 'Delivered', time: 'আজ সকাল ১১:২০' }
+    lang: localStorage.getItem('inforngo_lang') || 'bn',
+    zones: JSON.parse(localStorage.getItem('inforngo_v4_zones')) || window.INFODATA.zones,
+    ngos: JSON.parse(localStorage.getItem('inforngo_v4_ngos')) || window.INFODATA.ngos,
+    dispatches: JSON.parse(localStorage.getItem('inforngo_v4_dispatches')) || [
+      { id: 'd-1', ngoName: 'ব্র্যাক হিউম্যানিটারিয়ান এইড (BRAC)', zoneName: 'খুলনা নিরালা', items: '৮০০ খাবার প্যাকেট + ৩০০ গ্যালন পানি', vehicle: 'ট্রাক-খুলনা-১২', status: 'Delivered', time: '১২:০০' },
+      { id: 'd-2', ngoName: 'আস-সুন্নাহ ফাউন্ডেশন (As-Sunnah)', zoneName: 'খুলনা নিরালা', items: '১২০০ খাবার প্যাকেট + ৫০০ গ্যালন পানি', vehicle: 'ট্রাক-ঢাকা-৪৪', status: 'Delivered', time: '০১:১৫' },
+      { id: 'd-3', ngoName: 'মাস্তুল ফাউন্ডেশন (Mastul)', zoneName: 'খুলনা ময়লাপোতা', items: '২৫০ খাবার প্যাকেট + ১০০ গ্যালন পানি', vehicle: 'বোট-০২ (মাস্তুল)', status: 'In Transit', time: '০২:৩০' },
+      { id: 'd-4', ngoName: 'বিদ্যানন্দ ফাউন্ডেশন (Bidyanondo)', zoneName: 'নোয়াখালী বেগমগঞ্জ', items: '৫০০ খাবার প্যাকেট + ৪০০ গ্যালন পানি', vehicle: 'ট্রাক-নোয়া-০৫', status: 'Delivered', time: '১০:৪৫' },
+      { id: 'd-5', ngoName: 'আল-খিদমত ডিজাস্টার সেল', zoneName: 'নোয়াখালী বেগমগঞ্জ', items: '২০০ খাবার প্যাকেট + ৫০ শিশুখাদ্য', vehicle: 'পিকআপ-০১', status: 'In Transit', time: '০১:৪৫' },
+      { id: 'd-6', ngoName: 'আস-সুন্নাহ ফাউন্ডেশন (As-Sunnah)', zoneName: 'চট্টগ্রাম ফটিকছড়ি', items: '৬০০ খাবার প্যাকেট + ৩৫০ গ্যালন পানি', vehicle: 'ট্রাক-চট্টগ্রাম-০৮', status: 'Delivered', time: '১১:২০' }
     ],
     currentFilter: 'all',
     searchQuery: '',
-    activeTab: 'booking'
+    activeTab: 'booking',
+    gisMap: null,
+    gisMarkers: []
   };
 
   function saveState() {
-    localStorage.setItem('inforngo_v3_zones', JSON.stringify(state.zones));
-    localStorage.setItem('inforngo_v3_ngos', JSON.stringify(state.ngos));
-    localStorage.setItem('inforngo_v3_dispatches', JSON.stringify(state.dispatches));
+    localStorage.setItem('inforngo_v4_zones', JSON.stringify(state.zones));
+    localStorage.setItem('inforngo_v4_ngos', JSON.stringify(state.ngos));
+    localStorage.setItem('inforngo_v4_dispatches', JSON.stringify(state.dispatches));
+    localStorage.setItem('inforngo_lang', state.lang);
   }
+
+  // --- Bilingual Language Switcher ---
+  window.setLanguage = function (lang) {
+    state.lang = lang;
+    saveState();
+
+    // Update UI language buttons
+    const btnBn = document.getElementById('lang-btn-bn');
+    const btnEn = document.getElementById('lang-btn-en');
+    if (btnBn && btnEn) {
+      if (lang === 'bn') {
+        btnBn.className = 'px-2.5 py-1 rounded-md transition bg-white text-slate-900 shadow-xs font-bold';
+        btnEn.className = 'px-2.5 py-1 rounded-md transition text-slate-500 hover:text-slate-800 font-bold';
+      } else {
+        btnEn.className = 'px-2.5 py-1 rounded-md transition bg-white text-slate-900 shadow-xs font-bold';
+        btnBn.className = 'px-2.5 py-1 rounded-md transition text-slate-500 hover:text-slate-800 font-bold';
+      }
+    }
+
+    // Update all text nodes with data-i18n
+    const dict = translations[lang] || translations.bn;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (dict[key]) {
+        el.innerText = dict[key];
+      }
+    });
+
+    renderZones();
+    updateTopStats();
+    if (state.activeTab === 'dispatch') renderDispatchList();
+    if (state.activeTab === 'directory') renderNgoDirectory();
+    refreshIcons();
+  };
 
   // --- Tab Navigation Switcher ---
   window.switchTab = function (tabId) {
@@ -44,28 +240,23 @@
     if (targetPanel) targetPanel.classList.remove('hidden');
 
     // Update Nav Tab Buttons
-    const navButtons = {
-      booking: document.getElementById('tab-nav-booking'),
-      post: document.getElementById('tab-nav-post'),
-      register: document.getElementById('tab-nav-register'),
-      dispatch: document.getElementById('tab-nav-dispatch'),
-      directory: document.getElementById('tab-nav-directory')
-    };
-
-    Object.keys(navButtons).forEach(k => {
-      const btn = navButtons[k];
+    const tabButtons = ['booking', 'post', 'gis', 'dispatch', 'register', 'directory'];
+    tabButtons.forEach(id => {
+      const btn = document.getElementById(`tab-nav-${id}`);
       if (!btn) return;
-      if (k === tabId) {
-        btn.className = 'nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 bg-sky-600 text-white shadow-xs font-bold';
+      if (id === tabId) {
+        btn.className = 'nav-tab-btn px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 bg-sky-600 text-white shadow-xs shrink-0 font-bold';
       } else {
-        btn.className = 'nav-tab-btn px-4 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 font-bold';
+        btn.className = 'nav-tab-btn px-3.5 py-2 rounded-lg transition flex items-center gap-1.5 text-slate-600 hover:text-slate-900 hover:bg-slate-100 shrink-0 font-bold';
       }
     });
 
-    // Special View Refreshes
+    // Special View Actions
     if (tabId === 'booking') {
       renderZones();
       updateTopStats();
+    } else if (tabId === 'gis') {
+      setTimeout(initGisMap, 100);
     } else if (tabId === 'dispatch') {
       renderDispatchList();
     } else if (tabId === 'directory') {
@@ -99,7 +290,6 @@
     const pct = total > 0 ? Math.round((booked / total) * 100) : 0;
     const remaining = Math.max(0, total - booked);
 
-    // Pick icon by demand type
     let iconName = 'package';
     if (key === 'water') iconName = 'droplet';
     else if (key === 'medical') iconName = 'pill';
@@ -124,6 +314,8 @@
       segmentsHtml += `<div class="h-full bg-slate-100" style="width: ${remWidth}%;"></div>`;
     }
 
+    const isBn = state.lang === 'bn';
+
     return `
       <div class="mb-3.5 last:mb-0">
         <div class="flex justify-between items-center text-xs mb-1.5">
@@ -143,10 +335,10 @@
         <div class="flex justify-between items-center text-[11px] mt-1 text-slate-500">
           <span>${
             pct >= 100 
-              ? `<span class="inline-flex items-center gap-1 text-emerald-700 font-semibold"><i data-lucide="check" class="w-3 h-3"></i> এই আইটেমটির বুকিং শতভাগ পূর্ণ</span>` 
-              : `<span class="inline-flex items-center gap-1 text-rose-600 font-semibold"><i data-lucide="alert-circle" class="w-3 h-3"></i> বাকি প্রয়োজন: ${remaining.toLocaleString()} ${demand.unit}</span>`
+              ? `<span class="inline-flex items-center gap-1 text-emerald-700 font-semibold"><i data-lucide="check" class="w-3 h-3"></i> ${isBn ? 'এই আইটেমটির বুকিং শতভাগ পূর্ণ' : 'Item 100% committed'}</span>` 
+              : `<span class="inline-flex items-center gap-1 text-rose-600 font-semibold"><i data-lucide="alert-circle" class="w-3 h-3"></i> ${isBn ? 'বাকি প্রয়োজন:' : 'Deficit remaining:'} ${remaining.toLocaleString()} ${demand.unit}</span>`
           }</span>
-          <span class="text-[10.5px] text-slate-500">${demand.bookings.length > 0 ? demand.bookings.map(b => b.ngoName.split(' ')[0]).join(', ') : 'কেউ এখনো বুক করেনি'}</span>
+          <span class="text-[10.5px] text-slate-500">${demand.bookings.length > 0 ? demand.bookings.map(b => b.ngoName.split(' ')[0]).join(', ') : (isBn ? 'কেউ এখনো বুক করেনি' : 'Uncommitted')}</span>
         </div>
       </div>
     `;
@@ -156,6 +348,8 @@
   function renderZones() {
     const container = document.getElementById('zones-list-container');
     if (!container) return;
+
+    const isBn = state.lang === 'bn';
 
     let filtered = state.zones.filter(z => {
       const pct = getZoneOverallPct(z);
@@ -172,7 +366,7 @@
       return true;
     });
 
-    // Sort: Incomplete critical first, completed last!
+    // Incomplete critical first, completed at the bottom
     filtered.sort((a, b) => {
       const aDone = isZoneFullyCompleted(a) ? 1 : 0;
       const bDone = isZoneFullyCompleted(b) ? 1 : 0;
@@ -184,7 +378,7 @@
       container.innerHTML = `
         <div class="bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-400">
           <i data-lucide="search-x" class="w-8 h-8 mx-auto text-slate-300 mb-2"></i>
-          <p class="text-sm font-medium text-slate-600">কোনো সংকট এলাকা পাওয়া যায়নি</p>
+          <p class="text-sm font-medium text-slate-600">${isBn ? 'কোনো সংকট এলাকা পাওয়া যায়নি' : 'No crisis zones found'}</p>
         </div>
       `;
       refreshIcons();
@@ -209,7 +403,7 @@
                 </span>
               </div>
               <p class="text-xs text-slate-500 mt-1">
-                মাঠের তথ্যদাতা: <strong class="text-slate-700">${zone.reportedBy}</strong> (${zone.reportTime})
+                ${isBn ? 'মাঠের তথ্যদাতা:' : 'Reported By:'} <strong class="text-slate-700">${zone.reportedBy}</strong> (${zone.reportTime})
               </p>
             </div>
 
@@ -217,17 +411,17 @@
               ${isComplete ? `
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
                   <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-700"></i>
-                  <span>১০০% বুকিং সম্পন্ন • সুরক্ষিত</span>
+                  <span>${isBn ? '১০০% বুকিং সম্পন্ন • সুরক্ষিত' : '100% Booked • Secured'}</span>
                 </span>
               ` : pct < 30 ? `
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300">
                   <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-700"></i>
-                  <span>জরুরি অগ্রাধিকার (মাত্র ${pct}% বুকড)</span>
+                  <span>${isBn ? `জরুরি অগ্রাধিকার (মাত্র ${pct}% বুকড)` : `Critical Priority (${pct}% Booked)`}</span>
                 </span>
               ` : `
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
                   <i data-lucide="clock" class="w-3.5 h-3.5 text-amber-700"></i>
-                  <span>আংশিক বুকড (${pct}% সম্পন্ন)</span>
+                  <span>${isBn ? `আংশিক বুকড (${pct}% সম্পন্ন)` : `Partial Fulfillment (${pct}%)`}</span>
                 </span>
               `}
             </div>
@@ -238,19 +432,22 @@
             <div class="completed-banner rounded-xl p-3.5 mb-4 text-xs font-medium flex items-center justify-between">
               <div class="flex items-center gap-2.5">
                 <i data-lucide="shield-check" class="w-5 h-5 text-emerald-600 shrink-0"></i>
-                <span>এই এলাকায় খাদ্য, পানি ও প্রয়োজনীয় ওষুধের শতভাগ বুকিং সম্পন্ন হয়েছে। <strong>আপাতত এখানে নতুন ত্রাণের গাড়ি না পাঠিয়ে অন্য সংকট এলাকায় অগ্রাধিকার দিন।</strong></span>
+                <span>${isBn 
+                  ? 'এই এলাকায় খাদ্য, পানি ও প্রয়োজনীয় ওষুধের শতভাগ বুকিং সম্পন্ন হয়েছে। <strong>আপাতত এখানে নতুন ত্রাণের গাড়ি না পাঠিয়ে অন্য সংকট এলাকায় অগ্রাধিকার দিন।</strong>' 
+                  : 'All food, water, and emergency medical quotas for this zone are 100% fulfilled. <strong>Please prioritize unfulfilled zones.</strong>'
+                }</span>
               </div>
             </div>
           ` : `
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4 p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs">
               <div class="flex items-center gap-1.5">
                 <i data-lucide="users" class="w-3.5 h-3.5 text-slate-400"></i>
-                <span class="text-slate-500">ক্ষতিগ্রস্ত পরিবার:</span>
-                <strong class="text-slate-800 font-num ml-1">${zone.families.toLocaleString()} পরিবার (${zone.people.toLocaleString()} জন)</strong>
+                <span class="text-slate-500">${isBn ? 'ক্ষতিগ্রস্ত পরিবার:' : 'Affected Families:'}</span>
+                <strong class="text-slate-800 font-num ml-1">${zone.families.toLocaleString()} ${isBn ? 'পরিবার' : 'families'} (${zone.people.toLocaleString()} ${isBn ? 'জন' : 'people'})</strong>
               </div>
               <div class="flex items-center gap-1.5">
                 <i data-lucide="waves" class="w-3.5 h-3.5 text-sky-500"></i>
-                <span class="text-slate-500">পানির পরিস্থিতি:</span>
+                <span class="text-slate-500">${isBn ? 'পানির পরিস্থিতি:' : 'Flood Water Level:'}</span>
                 <strong class="text-slate-800 ml-1">${zone.waterLevel}</strong>
               </div>
             </div>
@@ -259,7 +456,7 @@
           <!-- Need Progression Bars -->
           <div class="mb-4">
             <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">
-              চাহিদা ও বুকিং প্রগ্রেসবার (Need Progressions)
+              ${isBn ? 'চাহিদা ও বুকিং প্রগ্রেসবার (Need Progressions)' : 'Itemized Need Progression Bars'}
             </h4>
             ${renderNeedBar(zone.id, 'food', zone.demands.food)}
             ${renderNeedBar(zone.id, 'water', zone.demands.water)}
@@ -270,20 +467,20 @@
           <!-- Action Footer -->
           <div class="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
             <div class="text-xs text-slate-500">
-              সামগ্রিক বুকিং সম্পন্ন: <strong class="text-slate-800 font-num font-bold">${pct}%</strong>
+              ${isBn ? 'সামগ্রিক বুকিং সম্পন্ন:' : 'Overall Quota Booked:'} <strong class="text-slate-800 font-num font-bold">${pct}%</strong>
             </div>
 
             <div>
               ${isComplete ? `
                 <button disabled class="py-2 px-4 bg-slate-100 text-slate-400 font-semibold rounded-lg text-xs cursor-not-allowed flex items-center gap-1.5">
                   <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                  <span>বুকিং কোটা পূর্ণ</span>
+                  <span>${isBn ? 'বুকিং কোটা পূর্ণ' : 'Quota Filled'}</span>
                 </button>
               ` : `
                 <button onclick="window.openBookingModal('${zone.id}')" 
                         class="py-2 px-4 bg-sky-600 hover:bg-sky-700 text-white font-bold rounded-lg text-xs shadow-xs transition flex items-center gap-1.5">
                   <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                  <span>এই এলাকার জন্য ত্রাণ বুক করুন</span>
+                  <span>${isBn ? 'এই এলাকার জন্য ত্রাণ বুক করুন' : 'Book Relief Aid for This Area'}</span>
                 </button>
               `}
             </div>
@@ -322,12 +519,144 @@
     if (elDone) elDone.innerText = completedZones;
     if (elFood) elFood.innerText = totalFoodBooked.toLocaleString() + ' / ' + totalFoodNeeded.toLocaleString();
 
-    // Mini badges in header
     const headCrit = document.getElementById('header-critical-count');
     const headDone = document.getElementById('header-completed-count');
     if (headCrit) headCrit.innerText = criticalZones;
     if (headDone) headDone.innerText = completedZones;
   }
+
+  // --- Interactive Light GIS Map (Leaflet) ---
+  function initGisMap() {
+    const container = document.getElementById('gis-leaflet-map');
+    if (!container) return;
+
+    if (!state.gisMap) {
+      state.gisMap = L.map('gis-leaflet-map', {
+        center: [23.6850, 90.3563],
+        zoom: 7,
+        zoomControl: true
+      });
+
+      // Humanitarian OpenStreetMap Light Tiles (Crisp & High Contrast)
+      L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors, Humanitarian OpenStreetMap Team',
+        maxZoom: 18
+      }).addTo(state.gisMap);
+    } else {
+      state.gisMap.invalidateSize();
+    }
+
+    // Render Markers for each Zone
+    state.gisMarkers.forEach(m => state.gisMap.removeLayer(m));
+    state.gisMarkers = [];
+
+    const zoneCoords = {
+      'খুলনা': [22.8456, 89.5403],
+      'ফেনী': [23.0159, 91.3976],
+      'চট্টগ্রাম': [22.4500, 91.8500],
+      'নোয়াখালী': [22.9554, 91.0991],
+      'সিলেট': [24.8949, 91.8687],
+      'কুমিল্লা': [23.4607, 91.1809],
+      'লক্ষ্মীপুর': [22.9425, 90.8412]
+    };
+
+    state.zones.forEach(z => {
+      let coords = zoneCoords[z.district] || [23.5, 90.5];
+      coords = [coords[0] + (Math.random() - 0.5) * 0.04, coords[1] + (Math.random() - 0.5) * 0.04];
+
+      const pct = getZoneOverallPct(z);
+      const isComplete = pct >= 100;
+      const markerColor = isComplete ? '#059669' : pct < 30 ? '#DC2626' : '#D97706';
+
+      const customIcon = L.divIcon({
+        html: `
+          <div style="background-color: ${markerColor}; width: 22px; height: 22px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold;">
+            ${isComplete ? '✓' : '!'}
+          </div>
+        `,
+        className: 'gis-pin',
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+      });
+
+      const m = L.marker(coords, { icon: customIcon }).addTo(state.gisMap);
+      m.bindPopup(`
+        <div class="p-1 text-xs">
+          <strong class="text-sm font-bold block mb-1 text-slate-900">${z.name}</strong>
+          <div class="text-slate-500 mb-1">📍 ${z.district} • ${z.families} পরিবার</div>
+          <div class="mb-2 font-semibold ${isComplete ? 'text-emerald-700' : 'text-rose-700'}">
+            অগ্রগতি: ${pct}% বুকড ${isComplete ? '(সুরক্ষিত)' : '(ঘাটতি রয়েছে)'}
+          </div>
+          <button onclick="window.switchTab('booking'); window.openBookingModal('${z.id}');" class="py-1 px-3 bg-sky-600 text-white rounded text-xs font-bold">
+            + ত্রাণ বুক করুন
+          </button>
+        </div>
+      `);
+      state.gisMarkers.push(m);
+    });
+  }
+
+  // --- Export National Disaster Report (CSV) ---
+  window.exportNationalReport = function () {
+    let csv = "Zone Name,District,Families,People,Water Level,Food Needed,Food Booked,Food Deficit,Water Needed,Water Booked,Water Deficit,Overall Pct,Status\n";
+
+    state.zones.forEach(z => {
+      const food = z.demands.food;
+      const water = z.demands.water;
+      const pct = getZoneOverallPct(z);
+      const status = pct >= 100 ? "Secured (100% Filled)" : pct < 30 ? "Critical Shortage" : "Partial";
+
+      csv += `"${z.name}","${z.district}",${z.families},${z.people},"${z.waterLevel}",${food.total},${food.booked},${Math.max(0, food.total - food.booked)},${water.total},${water.booked},${Math.max(0, water.total - water.booked)},"${pct}%","${status}"\n`;
+    });
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `INFOrNGO_National_Disaster_Report_${new Date().toISOString().slice(0, 10)}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // --- Low-Bandwidth SMS Ingestion Simulation ---
+  window.testSmsIntake = function () {
+    const rawSms = prompt(
+      "জরুরি এসএমএস ইনপুট টেস্ট:\n(যেমন: SOS CHATTOGRAM-HALDA 500FAMILIES 1000FOOD 400WATER)",
+      "SOS FENI-CHHAGALNAIYA 600FAMILIES 1200FOOD 400WATER"
+    );
+
+    if (!rawSms) return;
+
+    const parts = rawSms.split(' ');
+    const loc = parts[1] ? parts[1].replace('-', ' ') : 'ফেনী ছাগলনাইয়া';
+    const fam = 600;
+    const food = 1200;
+    const water = 400;
+
+    const newZone = {
+      id: 'zone-' + Date.now(),
+      name: loc,
+      district: 'ফেনী',
+      upazila: 'ছাগলনাইয়া',
+      reportedBy: 'এসএমএস গেটওয়ে (১৬২৬৩)',
+      reportTime: 'এইমাত্র (SMS)',
+      families: fam,
+      people: fam * 4.5,
+      waterLevel: 'বুক সমান পানি (এসএমএস সতর্কবার্তা)',
+      demands: {
+        food: { name: 'শুকনো খাদ্য (প্যাকেট)', total: food, booked: 0, unit: 'প্যাকেট', bookings: [] },
+        water: { name: 'খাবার পানি (গ্যালন)', total: water, booked: 0, unit: 'গ্যালন', bookings: [] },
+        medical: { name: 'স্যালাইন ও জরুরি ওষুধ (কিট)', total: 250, booked: 0, unit: 'কিট', bookings: [] },
+        babyFood: { name: 'শিশু খাদ্য ও দুধ (প্যাক)', total: 150, booked: 0, unit: 'প্যাক', bookings: [] }
+      }
+    };
+
+    state.zones.unshift(newZone);
+    saveState();
+    alert(`✅ এসএমএস প্রসেস সম্পন্ন!\n'${loc}' এলাকার জন্য রিয়েল-টাইম নিডবার ডাটাবেজে যুক্ত করা হয়েছে।`);
+    window.switchTab('booking');
+  };
 
   // --- Booking Modal (ত্রাণ বুকিং) ---
   window.openBookingModal = function (zoneId) {
@@ -338,13 +667,11 @@
     document.getElementById('book-zone-name').innerText = zone.name;
     document.getElementById('book-zone-info').innerText = `${zone.district} • ${zone.families} টি পরিবার`;
 
-    // Populate NGO select from state.ngos
     const ngoSelect = document.getElementById('book-ngo-select');
     ngoSelect.innerHTML = state.ngos.map(n => `
       <option value="${n.name}">${n.name}</option>
     `).join('') + `<option value="other">+ নতুন সংস্থা / স্বতন্ত্র ডোনার</option>`;
 
-    // Categories
     const catSelect = document.getElementById('book-category-select');
     catSelect.innerHTML = Object.keys(zone.demands).map(k => {
       const d = zone.demands[k];
@@ -388,7 +715,6 @@
     const demand = zone.demands[category];
     demand.booked = Math.min(demand.total, demand.booked + amount);
     
-    // Add booking entry
     const colors = ['#0284C7', '#059669', '#DC2626', '#D97706', '#7C3AED', '#0D9488'];
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
     demand.bookings.push({
@@ -400,7 +726,6 @@
       convoyNo: convoyNote
     });
 
-    // Also add to global dispatches ledger!
     state.dispatches.unshift({
       id: 'd-' + Date.now(),
       ngoName: ngoName,
@@ -461,11 +786,11 @@
     saveState();
     e.target.reset();
 
-    alert(`📢 নতুন ক্রাইসিস এলাকা সফলভাবে যুক্ত হয়েছে! '${areaName}' এলাকার ০% নিডবার তৈরি হয়েছে। আপনাকে বুকিং ড্যাশবোর্ডে নিয়ে যাওয়া হচ্ছে।`);
+    alert(`📢 নতুন ক্রাইসিস এলাকা সফলভাবে যুক্ত হয়েছে! '${areaName}' এলাকার ০% নিডবার তৈরি হয়েছে।`);
     window.switchTab('booking');
   };
 
-  // --- View 3: New NGO Registration ---
+  // --- View 5: New NGO Registration ---
   window.submitNgoRegistration = function (e) {
     e.preventDefault();
     const name = document.getElementById('reg-ngo-name').value.trim();
@@ -612,7 +937,7 @@
     }
   };
 
-  // --- View 5: NGO Directory Grid ---
+  // --- View 6: NGO Directory Grid ---
   function renderNgoDirectory() {
     const grid = document.getElementById('ngo-directory-grid');
     if (!grid) return;
@@ -688,8 +1013,13 @@
 
   // --- Initialization ---
   document.addEventListener('DOMContentLoaded', () => {
-    renderZones();
-    updateTopStats();
+    // Restore preferred language
+    if (state.lang) {
+      window.setLanguage(state.lang);
+    } else {
+      renderZones();
+      updateTopStats();
+    }
     initControls();
     refreshIcons();
   });
